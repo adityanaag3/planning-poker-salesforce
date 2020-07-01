@@ -1,0 +1,44 @@
+<template>
+    <div class="playerList">
+        <template if:true={isWaitingForPlayers}>
+            <div
+                class="slds-var-m-top_large slds-var-m-bottom_large slds-text-align_center slds-text-heading_small"
+            >
+                Waiting for players to join...
+            </div>
+        </template>
+
+        <template if:true={error}>
+            {error}
+        </template>
+
+        <template if:false={error}>
+            <div class="slds-grid slds-wrap">
+                <template for:each={playerNames} for:item="playerName">
+                    <div
+                        key={playerName.Id}
+                        class="slds-text-align_center slds-var-m-bottom_medium slds-size_3-of-12 name"
+                    >
+                        {playerName.Name}
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+
+    <div class="slds-var-m-top_small slds-text-align_center">
+        <lightning-button
+            label="Start Playing"
+            variant="brand"
+            onclick={doStartPlanning}
+            disabled={isWaitingForPlayers}
+        ></lightning-button>
+        <lightning-button
+            label="Remove all players"
+            variant="destructive"
+            onclick={removePlayers}
+            disabled={isWaitingForPlayers}
+            class="slds-var-m-left_small"
+        ></lightning-button>
+    </div>
+</template>

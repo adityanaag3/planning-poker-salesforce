@@ -1,0 +1,55 @@
+<template>
+    <div class="playerList">
+        <template if:true={error}>
+            {error}
+        </template>
+
+        <template if:false={error}>
+            <div class="slds-grid slds-wrap">
+                <template for:each={playerResponses} for:item="playerResponse">
+                    <div
+                        key={playerResponse.player.Id}
+                        class="slds-var-m-bottom_medium slds-size_3-of-12"
+                    >
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <template if:false={playerResponse.response}>
+                                <div class="pokerCard default">
+                                    <lightning-icon
+                                        icon-name="utility:salesforce1"
+                                        alternative-text="NA"
+                                        title="No Vote Yet"
+                                        variant="inverse"
+                                    ></lightning-icon>
+                                </div>
+                            </template>
+                            <template if:true={playerResponse.response}>
+                                <template if:false={cardsFlipped}>
+                                    <div class="pokerCard responseHidden">
+                                        <lightning-icon
+                                            icon-name="utility:salesforce1"
+                                            alternative-text="NA"
+                                            title="No Vote Yet"
+                                            variant="inverse"
+                                        ></lightning-icon>
+                                    </div>
+                                </template>
+                                <template if:true={cardsFlipped}>
+                                    <div
+                                        class="pokerCard"
+                                        style={playerResponse.pokerCard.colorHexCode}
+                                    >
+                                        {playerResponse.response}
+                                    </div>
+                                </template>
+                            </template>
+
+                            <div class="pokerCardName">
+                                {playerResponse.player.Name}
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+</template>

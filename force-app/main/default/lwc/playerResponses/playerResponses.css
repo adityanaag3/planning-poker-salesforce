@@ -1,0 +1,48 @@
+@keyframes popout {
+    0% {
+        font-size: 0.5rem;
+    }
+    50% {
+        font-size: 1.2rem;
+    }
+    100% {
+        font-size: 1rem;
+    }
+}
+
+.name {
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    animation: popout 0.5s;
+}
+
+.playerList {
+    min-height: 11rem;
+    max-height: 16rem;
+    overflow-y: scroll;
+}
+
+.pokerCard {
+    width: 3rem;
+    height: 4rem;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 4rem;
+    color: #fff;
+    text-align: center;
+}
+
+.pokerCardName {
+    max-width: 50%;
+    word-break: break-word;
+}
+
+.default {
+    background: #e6e6e6;
+}
+
+.responseHidden {
+    background: #3d76ad;
+}

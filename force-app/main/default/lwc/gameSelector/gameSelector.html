@@ -1,0 +1,32 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="gameSet"
+            >Select a game</label
+        >
+        <div class="slds-form-element__control">
+            <select
+                class="slds-input"
+                name="gameSet"
+                onchange={handleGameChange}
+            >
+                <option value=""></option>
+                <template if:true={validGames.data}>
+                    <template for:each={validGames.data} for:item="validGame">
+                        <option key={validGame.Id} value={validGame.Id}
+                            >{validGame.Name}
+                        </option>
+                    </template>
+                </template>
+            </select>
+        </div>
+    </div>
+
+    <div class="slds-form-element slds-var-m-top_small slds-text-align_center">
+        <lightning-button
+            label="Launch Game"
+            variant="brand"
+            onclick={doLaunchGame}
+            disabled={isLaunchDisabled}
+        ></lightning-button>
+    </div>
+</template>

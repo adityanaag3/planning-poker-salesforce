@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Planning Poker" icon-name="custom:custom66">
+        <div class="slds-var-p-around_medium">
+            <template if:true={isGameSelectionPhase}>
+                <div class="slds-grid slds-grid_align-center">
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-input
+                            label="Enter Game Key"
+                            onchange={handleGameKeyChange}
+                        ></lightning-input>
+                        <div
+                            class="slds-var-m-top_small slds-text-align_center"
+                        >
+                            <lightning-button
+                                label="Join Game"
+                                class="slds-var-m-top_small"
+                                variant="brand"
+                                onclick={fetchGame}
+                            ></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isPlayerRegistrationPhase}>
+                <div
+                    class="slds-text-align_center slds-var-p-around_large slds-text-heading_small"
+                >
+                    Waiting for others to join..
+                </div>
+            </template>
+            <template if:true={isGamePlayPhase}>
+                <c-backlog-items-for-review
+                    game-id={gameId}
+                    player-id={playerId}
+                ></c-backlog-items-for-review>
+            </template>
+        </div>
+    </lightning-card>
+</template>

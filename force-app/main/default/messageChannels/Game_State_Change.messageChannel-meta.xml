@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>GameStateChange</masterLabel>
+    <isExposed>true</isExposed>
+    <description>Message Channel to pass a record Id</description>
+    <lightningMessageFields>
+        <fieldName>recordId</fieldName>
+        <description>This is the record Id of the game</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>state</fieldName>
+        <description
+        >This is the state of the game: selected, started, flipped</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>additionalData</fieldName>
+        <description>Any additional data that has to be sent</description>
+    </lightningMessageFields>
+</LightningMessageChannel>

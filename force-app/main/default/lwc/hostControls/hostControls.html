@@ -1,0 +1,97 @@
+<template>
+    <template if:true={gameId}>
+        <lightning-card title="Host Controls" icon-name="custom:custom19">
+            <div class="slds-var-p-around_medium">
+                <label class="slds-form-element__label" for="consensus"
+                    >Consensus</label
+                >
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_2-of-3">
+                        <select class="slds-input" name="consensus">
+                            <template
+                                for:each={estimateOptions}
+                                for:item="estOption"
+                            >
+                                <option
+                                    key={estOption.name}
+                                    value={estOption.name}
+                                    >{estOption.name}</option
+                                >
+                            </template>
+                        </select>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-button
+                            label="Save Consensus"
+                            variant="success"
+                            onclick={saveChosenConsensus}
+                        ></lightning-button>
+                    </div>
+                </div>
+
+                <label class="slds-form-element__label slds-var-m-top_medium"
+                    >Story Controls</label
+                >
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <button
+                            type="button"
+                            class="slds-button slds-button_brand slds-button_stretch"
+                            onclick={goToNextStory}
+                        >
+                            Next Story
+                        </button>
+                    </div>
+                </div>
+
+                <label class="slds-form-element__label slds-var-m-top_medium"
+                    >Vote Controls</label
+                >
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-3">
+                        <button
+                            type="button"
+                            class="slds-button slds-button_brand slds-button_stretch"
+                            onclick={revealCards}
+                        >
+                            Reveal Cards
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <button
+                            type="button"
+                            class="slds-button slds-button_brand slds-button_stretch"
+                            onclick={hideCards}
+                        >
+                            Hide Cards
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <button
+                            type="button"
+                            class="slds-button slds-button_brand slds-button_stretch"
+                            onclick={resetAllCards}
+                        >
+                            Reset Cards
+                        </button>
+                    </div>
+                </div>
+
+                <label class="slds-form-element__label slds-var-m-top_medium"
+                    >Game Controls</label
+                >
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-1">
+                        <button
+                            type="button"
+                            class="slds-button slds-button_destructive slds-button_stretch"
+                            onclick={endGame}
+                        >
+                            End Game
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+</template>

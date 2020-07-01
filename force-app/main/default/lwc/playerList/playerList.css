@@ -1,0 +1,20 @@
+@keyframes popout {
+    0% {
+        font-size: 0.5rem;
+    }
+    50% {
+        font-size: 1rem;
+    }
+    100% {
+        font-size: inherit;
+    }
+}
+
+.name {
+    text-overflow: ellipsis;
+    animation: popout 0.5s;
+}
+
+.playerList {
+    min-height: 11rem;
+}

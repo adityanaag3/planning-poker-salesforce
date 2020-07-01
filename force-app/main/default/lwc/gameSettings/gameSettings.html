@@ -1,0 +1,257 @@
+<template>
+    <lightning-card title="Game Data Sources">
+        <div class="slds-var-p-around_medium slds-p-top_none">
+            <fieldset class="slds-form-element slds-form-element_compound">
+                <legend
+                    class="slds-size_full slds-form-element__legend slds-form-element__label legendBackground"
+                >
+                    Playing Cards Source
+                </legend>
+                <div class="slds-form-element__control slds-var-p-around_small">
+                    <div class="slds-form-element__row">
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="cardSet"
+                                    >Card Set</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="cardSet"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template if:true={cardSets.data}>
+                                            <template
+                                                for:each={cardSets.data}
+                                                for:item="cardSet"
+                                            >
+                                                <option
+                                                    key={cardSet.Id}
+                                                    value={cardSet.Id}
+                                                    >{cardSet.MasterLabel}
+                                                </option>
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset
+                class="slds-form-element slds-form-element_compound slds-var-m-top_small"
+            >
+                <legend
+                    class="slds-size_full slds-form-element__legend slds-form-element__label legendBackground"
+                >
+                    User Story Source
+                </legend>
+                <div class="slds-form-element__control slds-var-p-around_small">
+                    <div class="slds-form-element__row">
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="storySource"
+                                    >Object</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="storySource"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template if:true={customObjects.data}>
+                                            <template
+                                                for:each={customObjects.data}
+                                                for:item="customObject"
+                                            >
+                                                <option
+                                                    key={customObject}
+                                                    value={customObject}
+                                                    >{customObject}</option
+                                                >
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="nameField"
+                                    >Name Field</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="nameField"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template
+                                            if:true={textFieldsFromObject}
+                                        >
+                                            <template
+                                                for:each={textFieldsFromObject}
+                                                for:item="textFieldFromObject"
+                                            >
+                                                <option
+                                                    key={textFieldFromObject.apiName}
+                                                    value={textFieldFromObject.apiName}
+                                                    >{textFieldFromObject.label}
+                                                </option>
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form-element__row slds-var-m-top_small">
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="descriptionField"
+                                    >Description Field</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="descriptionField"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template
+                                            if:true={longTextFieldsFromObject}
+                                        >
+                                            <template
+                                                for:each={longTextFieldsFromObject}
+                                                for:item="longTextFieldFromObject"
+                                            >
+                                                <option
+                                                    key={longTextFieldFromObject.apiName}
+                                                    value={longTextFieldFromObject.apiName}
+                                                >
+                                                    {longTextFieldFromObject.label}</option
+                                                >
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="consensusField"
+                                    >Consensus Stored In?</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="consensusField"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template
+                                            if:true={textFieldsFromObject}
+                                        >
+                                            <template
+                                                for:each={textFieldsFromObject}
+                                                for:item="textFieldFromObject"
+                                            >
+                                                <option
+                                                    key={textFieldFromObject.apiName}
+                                                    value={textFieldFromObject.apiName}
+                                                >
+                                                    {textFieldFromObject.label}</option
+                                                >
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset
+                class="slds-form-element slds-form-element_compound slds-var-m-top_small"
+            >
+                <legend
+                    class="slds-size_full slds-form-element__legend slds-form-element__label legendBackground"
+                >
+                    Filter Criteria
+                </legend>
+                <div class="slds-form-element__control slds-var-p-around_small">
+                    <div class="slds-form-element__row">
+                        <div
+                            class="slds-size_1-of-2  slds-var-p-left_x-small slds-var-p-right_x-small"
+                        >
+                            <div class="slds-form-element">
+                                <label
+                                    class="slds-form-element__label"
+                                    for="filterField"
+                                    >List View</label
+                                >
+                                <div class="slds-form-element__control">
+                                    <select
+                                        class="slds-input"
+                                        name="filterField"
+                                        onchange={handleConfigChange}
+                                    >
+                                        <option value=""></option>
+                                        <template if:true={listViews.data}>
+                                            <template
+                                                for:each={listViews.data}
+                                                for:item="listView"
+                                            >
+                                                <option
+                                                    key={listView.Id}
+                                                    value={listView.Id}
+                                                    >{listView.Name}</option
+                                                >
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div
+                class="slds-form-element slds-var-m-top_small slds-text-align_center"
+            >
+                <lightning-button
+                    label="Save"
+                    variant="brand"
+                    onclick={saveSettings}
+                ></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

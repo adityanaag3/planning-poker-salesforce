@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Planning Poker" icon-name="custom:custom66">
+        <div class="slds-var-p-around_medium">
+            <template if:true={isGameSelectionPhase}>
+                <div class="slds-grid slds-grid_align-center">
+                    <div class="slds-col slds-size_1-of-3">
+                        <c-game-selector
+                            onlaunch={launchGame}
+                        ></c-game-selector>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isPlayerRegistrationPhase}>
+                <c-player-list
+                    game-id={gameId}
+                    onplaygame={startGamePlay}
+                ></c-player-list>
+            </template>
+            <template if:true={isGamePlayPhase}>
+                <c-backlog-items-for-review
+                    game-id={gameId}
+                    player-id={playerId}
+                    onendgame={handleGameEnd}
+                ></c-backlog-items-for-review>
+            </template>
+        </div>
+    </lightning-card>
+</template>

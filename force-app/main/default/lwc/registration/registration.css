@@ -1,0 +1,9 @@
+.gamePin {
+    font-weight: bold;
+    background: black;
+    color: white;
+    width: 150px;
+    margin: 0 auto;
+    margin-top: 5px;
+    padding: 7px;
+}

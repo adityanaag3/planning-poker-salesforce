@@ -1,0 +1,49 @@
+.base-timer {
+    position: relative;
+    height: 150px;
+    width: 150px;
+}
+
+/* Removes SVG styling that would hide the time label */
+
+.base-timer__circle {
+    fill: none;
+    stroke: none;
+}
+
+/* The SVG path that displays the timer's progress */
+
+.base-timer__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+}
+
+.base-timer__label {
+    position: absolute;
+    /* Size should match the parent container */
+    width: 150px;
+    height: 150px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: 'Salesforce Sans', Helvetica, sans-serif;
+}
+
+.base-timer__path-remaining {
+    /* Just as thick as the original ring */
+    stroke-width: 7px;
+    /* Rounds the line endings to create a seamless circle */
+    stroke-linecap: round;
+    /* Makes sure the animation starts at the top of the circle */
+    transform: rotate(90deg);
+    transform-origin: center;
+    /* One second aligns with the speed of the countdown timer */
+    transition: 1s linear all;
+}
+
+.base-timer__svg {
+    /* Flips the svg and makes the animation to move left-to-right */
+    transform: scaleX(-1);
+}

@@ -1,0 +1,36 @@
+<template>
+    <lightning-card
+        title="How can participants join?"
+        icon-name="standard:groups"
+    >
+        <div class="slds-var-p-around_medium slds-text-align_center">
+            <template if:true={gameId}>
+                <div class="slds-text-heading_small">
+                    Game Pin
+                    <div class="slds-text-heading_large gamePin">{gamePin}</div>
+                    <br />
+                    <b>Salesforce Users</b> <br />
+                    Navigate to "Planning Poker App" in Salesforce<br /><br />
+                    <template if:true={appUrl.data}>
+                        <b>Non-Salesforce Users</b> <br />
+                        Navigate to <br />
+                        <a href={herokuAppUrl}>{herokuAppUrl}</a>
+                    </template>
+                    <br />
+                </div>
+            </template>
+            <template if:false={gameId}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="315"
+                    height="142"
+                    class="slds-var-m-bottom_medium"
+                >
+                    <use xlink:href={noDataSvgUrl}></use>
+                </svg>
+                <br />
+                Launch a game to view the details
+            </template>
+        </div>
+    </lightning-card>
+</template>
