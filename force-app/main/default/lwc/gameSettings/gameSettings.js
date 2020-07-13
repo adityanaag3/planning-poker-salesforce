@@ -3,7 +3,7 @@ import { LightningElement, wire, api } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getCardSets from '@salesforce/apex/PlanningPokerCtrl.getCardSets';
+import getAvailableCardSets from '@salesforce/apex/PlanningPokerCtrl.getAvailableCardSets';
 import getCustomObjects from '@salesforce/apex/PlanningPokerCtrl.getCustomObjects';
 import getListViewsOfObject from '@salesforce/apex/PlanningPokerCtrl.getListViewsOfObject';
 import GAME_SETTINGS_FIELD from '@salesforce/schema/Game__c.Config__c';
@@ -25,7 +25,7 @@ export default class GameSettings extends LightningElement {
 
     @api recordId;
 
-    @wire(getCardSets)
+    @wire(getAvailableCardSets)
     cardSets;
 
     @wire(getCustomObjects)

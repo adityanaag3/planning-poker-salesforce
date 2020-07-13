@@ -1,9 +1,11 @@
 public without sharing class PlanningPokerCtrl {
+    
     /**
-     * Used in Game Settings Lightning Web Component to get the list of available card sets so that one can be chosen for the game
+     *  Methods for Game Settings
      */
+    
     @AuraEnabled(cacheable=true)
-    public static List<Card_Set__mdt> getCardSets() {
+    public static List<Card_Set__mdt> getAvailableCardSets() {
         return [SELECT Id, MasterLabel FROM Card_Set__mdt];
     }
 
@@ -25,21 +27,41 @@ public without sharing class PlanningPokerCtrl {
         return [SELECT Id, Name FROM ListView WHERE sObjectType = :objName];
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Game__c> getValidGames() {
-        List<Game__c> games = new List<Game__c>();
-        for (Game__c g : [
-            SELECT Id, Name, Config__c, Phase__c
+    @AuraEnabled
+    public static GameSettings getGameSettings(String gameId) {
+        GameSettings gs;
+        Game__c game = [
+            SELECT Id, Name, Show_Timer__c, Timer_Duration__c, Config__c
             FROM Game__c
-            WHERE Phase__c != 'Completed'
-            ORDER BY CreatedDate DESC
-            LIMIT 100
-        ]) {
-            if (g.Config__c != null) {
-                games.add(g);
+            WHERE Id = :gameId
+        ];
+        if (game.Config__c != null) {
+            try {
+                Object config = JSON.deserializeUntyped(game.Config__c);
+                Map<String, Object> configMap = (Map<String, Object>) config;
+                if (
+                    configMap.get('object') != null &&
+                    configMap.get('name') != null &&
+                    configMap.get('description') != null &&
+                    configMap.get('listView') != null &&
+                    configMap.get('consensus') != null &&
+                    configMap.get('object') != null
+                ) {
+                    gs = new GameSettings();
+                    gs.cardSet = (String) configMap.get('cardSet');
+                    gs.nameField = (String) configMap.get('name');
+                    gs.descriptionField = (String) configMap.get('description');
+                    gs.listViewId = (String) configMap.get('listView');
+                    gs.consensusField = (String) configMap.get('consensus');
+                    gs.objectApiName = (String) configMap.get('object');
+                    gs.game = game;
+                    gs.game.Config__c = null;
+                }
+            } catch (Exception e) {
+                system.debug(e);
             }
         }
-        return games;
+        return gs;
     }
 
     @AuraEnabled(cacheable=true)
@@ -60,100 +82,6 @@ public without sharing class PlanningPokerCtrl {
             }
         }
         return url;
-    }
-
-    @AuraEnabled
-    public static Game__c getGameByGameKey(String gameKey) {
-        List<Game__c> games = [
-            SELECT
-                Id,
-                Name,
-                Config__c,
-                Show_Timer__c,
-                Timer_Duration__c,
-                Phase__c
-            FROM Game__c
-            WHERE Phase__c != 'Completed' AND Game_Key__c = :gameKey
-        ];
-        if (!games.isEmpty()) {
-            return games[0];
-        }
-        return null;
-    }
-
-    @AuraEnabled
-    public static List<Player__c> getGamePlayers(String gameId) {
-        return [SELECT Id, Name FROM Player__c WHERE Game__c = :gameId];
-    }
-
-    @AuraEnabled
-    public static void updateGameCurrentStory(String gameId, String storyId) {
-        Game__c game = [
-            SELECT Id, Current_Story_ID__c
-            FROM Game__c
-            WHERE Id = :gameId
-        ];
-        if (storyId != game.Current_Story_ID__c) {
-            game.Current_Story_ID__c = storyId;
-            update game;
-            Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-            stateChangeEvent.GameID__c = gameId;
-            stateChangeEvent.Type__c = 'StoryChange';
-            stateChangeEvent.Data__c = storyId;
-            Eventbus.publish(stateChangeEvent);
-        }
-    }
-
-    @AuraEnabled
-    public static void changeGamePhase(String gameId, String currentPhase) {
-        Game__c game = [SELECT Id, Phase__c FROM Game__c WHERE Id = :gameId];
-
-        String nextPhase;
-        if (currentPhase == 'Not Started') {
-            nextPhase = 'Registration';
-        } else if (currentPhase == 'Registration') {
-            nextPhase = 'In Progress';
-        } else if (currentPhase == 'In Progress') {
-            nextPhase = 'Completed';
-        }
-
-        if (nextPhase != null && game.Phase__c != nextPhase) {
-            game.Phase__c = nextPhase;
-            update game;
-            Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-            stateChangeEvent.GameID__c = gameId;
-            stateChangeEvent.Type__c = 'GamePhaseChange';
-            stateChangeEvent.Data__c = nextPhase;
-            Eventbus.publish(stateChangeEvent);
-        }
-    }
-
-    @AuraEnabled
-    public static void sendflipCardsEvent(String gameId, String flipped) {
-        Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-        stateChangeEvent.GameID__c = gameId;
-        stateChangeEvent.Type__c = 'CardFlip';
-        stateChangeEvent.Data__c = flipped;
-        Eventbus.publish(stateChangeEvent);
-    }
-
-    @AuraEnabled
-    public static void resetCards(String gameId) {
-        Game__c g = [
-            SELECT Id, Current_Story_ID__c
-            FROM Game__c
-            WHERE Id = :gameId
-        ];
-        delete ([
-            SELECT Id
-            FROM Player_Response__c
-            WHERE Game__c = :gameId AND Story_ID__c = :g.Current_Story_ID__c
-        ]);
-        Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-        stateChangeEvent.GameID__c = gameId;
-        stateChangeEvent.Type__c = 'ResetCards';
-        stateChangeEvent.Data__c = g.Current_Story_ID__c;
-        Eventbus.publish(stateChangeEvent);
     }
 
     @AuraEnabled(cacheable=true)
@@ -197,6 +125,91 @@ public without sharing class PlanningPokerCtrl {
             system.debug(e);
         }
         return allCards;
+    }
+
+
+    /**
+     *  Methods for Game Launch and Phase Updates
+     */
+
+    @AuraEnabled(cacheable=true)
+    public static List<Game__c> getValidGames() {
+        List<Game__c> games = new List<Game__c>();
+        for (Game__c g : [
+            SELECT Id, Name, Config__c, Phase__c
+            FROM Game__c
+            WHERE Phase__c != 'Completed'
+            ORDER BY CreatedDate DESC
+            LIMIT 100
+        ]) {
+            if (g.Config__c != null) {
+                games.add(g);
+            }
+        }
+        return games;
+    }
+
+    @AuraEnabled
+    public static Game__c getGameByGameKey(String gameKey) {
+        List<Game__c> games = [
+            SELECT
+                Id,
+                Name,
+                Config__c,
+                Show_Timer__c,
+                Timer_Duration__c,
+                Phase__c
+            FROM Game__c
+            WHERE Phase__c != 'Completed' AND Game_Key__c = :gameKey
+        ];
+        if (!games.isEmpty()) {
+            return games[0];
+        }
+        return null;
+    }
+
+    @AuraEnabled
+    public static void updateGameCurrentStory(String gameId, String storyId) {
+        Game__c game = [
+            SELECT Id, Current_Story_ID__c
+            FROM Game__c
+            WHERE Id = :gameId
+        ];
+        if (storyId != game.Current_Story_ID__c) {
+            game.Current_Story_ID__c = storyId;
+            update game;
+            /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
+            stateChangeEvent.GameID__c = gameId;
+            stateChangeEvent.Type__c = 'StoryChange';
+            stateChangeEvent.Data__c = storyId;
+            Eventbus.publish(stateChangeEvent);*/
+            PlanningPokerEventUtil.fireStoryChangeEvent(gameId, storyId);
+        }
+    }
+
+    @AuraEnabled
+    public static void changeGamePhase(String gameId, String currentPhase) {
+        Game__c game = [SELECT Id, Phase__c FROM Game__c WHERE Id = :gameId];
+
+        String nextPhase;
+        if (currentPhase == 'Not Started') {
+            nextPhase = 'Registration';
+        } else if (currentPhase == 'Registration') {
+            nextPhase = 'In Progress';
+        } else if (currentPhase == 'In Progress') {
+            nextPhase = 'Completed';
+        }
+
+        if (nextPhase != null && game.Phase__c != nextPhase) {
+            game.Phase__c = nextPhase;
+            update game;
+            /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
+            stateChangeEvent.GameID__c = gameId;
+            stateChangeEvent.Type__c = 'GamePhaseChange';
+            stateChangeEvent.Data__c = nextPhase;
+            Eventbus.publish(stateChangeEvent);*/
+            PlanningPokerEventUtil.fireGamePhaseChangeEvent(gameId, nextPhase);
+        }
     }
 
     @AuraEnabled
@@ -256,89 +269,14 @@ public without sharing class PlanningPokerCtrl {
         return b;
     }
 
-    @AuraEnabled
-    public static GameSettings getGameSettings(String gameId) {
-        GameSettings gs;
-        Game__c game = [
-            SELECT Id, Name, Show_Timer__c, Timer_Duration__c, Config__c
-            FROM Game__c
-            WHERE Id = :gameId
-        ];
-        if (game.Config__c != null) {
-            try {
-                Object config = JSON.deserializeUntyped(game.Config__c);
-                Map<String, Object> configMap = (Map<String, Object>) config;
-                if (
-                    configMap.get('object') != null &&
-                    configMap.get('name') != null &&
-                    configMap.get('description') != null &&
-                    configMap.get('listView') != null &&
-                    configMap.get('consensus') != null &&
-                    configMap.get('object') != null
-                ) {
-                    gs = new GameSettings();
-                    gs.cardSet = (String) configMap.get('cardSet');
-                    gs.nameField = (String) configMap.get('name');
-                    gs.descriptionField = (String) configMap.get('description');
-                    gs.listViewId = (String) configMap.get('listView');
-                    gs.consensusField = (String) configMap.get('consensus');
-                    gs.objectApiName = (String) configMap.get('object');
-                    gs.game = game;
-                    gs.game.Config__c = null;
-                }
-            } catch (Exception e) {
-                system.debug(e);
-            }
-        }
-        return gs;
-    }
+
+    /**
+     * Methods for Game Players
+     */
 
     @AuraEnabled
-    public static Boolean saveConsensus(
-        String storyId,
-        String objectApiName,
-        String consensusField,
-        String consensusValue
-    ) {
-        Boolean isSuccess = false;
-        Schema.SObjectType targetType = Schema.getGlobalDescribe()
-            .get(objectApiName);
-        if (targetType != null) {
-            sObject s = targetType.newSObject();
-            s.put('Id', storyId);
-            s.put(consensusField, consensusValue);
-            update s;
-            isSuccess = true;
-        }
-        return isSuccess;
-    }
-
-    @AuraEnabled
-    public static void captureVote(
-        String storyId,
-        String response,
-        String playerId,
-        String gameId
-    ) {
-        List<Player_Response__c> existingResponse = [
-            SELECT Id
-            FROM Player_Response__c
-            WHERE
-                Game__c = :gameId
-                AND Player__c = :playerId
-                AND Story_ID__c = :storyId
-        ];
-
-        Player_Response__c pr = new Player_Response__c();
-        pr.Response__c = response;
-        if (existingResponse.size() > 0) {
-            pr.Id = existingResponse[0].Id;
-        } else {
-            pr.Game__c = gameId;
-            pr.Player__c = playerId;
-            pr.Story_ID__c = storyId;
-        }
-        upsert pr;
+    public static List<Player__c> getGamePlayers(String gameId) {
+        return [SELECT Id, Name FROM Player__c WHERE Game__c = :gameId];
     }
 
     @AuraEnabled
@@ -372,9 +310,9 @@ public without sharing class PlanningPokerCtrl {
         String gameId,
         String playerName,
         Boolean isHost,
-        Boolean isSalesforePlayer
+        Boolean isSalesforcePlayer
     ) {
-        if (isHost || isSalesforePlayer) {
+        if (isHost || isSalesforcePlayer) {
             playerName = UserInfo.getName();
         }
 
@@ -402,6 +340,39 @@ public without sharing class PlanningPokerCtrl {
             }
         }
         return null;
+    }
+
+
+    /**
+     *  Methods for Player Responses
+     */
+
+    @AuraEnabled
+    public static void captureVote(
+        String storyId,
+        String response,
+        String playerId,
+        String gameId
+    ) {
+        List<Player_Response__c> existingResponse = [
+            SELECT Id
+            FROM Player_Response__c
+            WHERE
+                Game__c = :gameId
+                AND Player__c = :playerId
+                AND Story_ID__c = :storyId
+        ];
+
+        Player_Response__c pr = new Player_Response__c();
+        pr.Response__c = response;
+        if (existingResponse.size() > 0) {
+            pr.Id = existingResponse[0].Id;
+        } else {
+            pr.Game__c = gameId;
+            pr.Player__c = playerId;
+            pr.Story_ID__c = storyId;
+        }
+        upsert pr;
     }
 
     @AuraEnabled(cacheable=true)
@@ -437,6 +408,67 @@ public without sharing class PlanningPokerCtrl {
 
         return playerResponses;
     }
+
+
+    /**
+     *  Methods for Host Controls
+     */
+
+    @AuraEnabled
+    public static void sendflipCardsEvent(String gameId, String flipped) {
+        /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
+        stateChangeEvent.GameID__c = gameId;
+        stateChangeEvent.Type__c = 'CardFlip';
+        stateChangeEvent.Data__c = flipped;
+        Eventbus.publish(stateChangeEvent);*/
+        PlanningPokerEventUtil.fireFlipCardsEvent(gameId, flipped);
+    }
+
+    @AuraEnabled
+    public static void resetCards(String gameId) {
+        Game__c g = [
+            SELECT Id, Current_Story_ID__c
+            FROM Game__c
+            WHERE Id = :gameId
+        ];
+        delete ([
+            SELECT Id
+            FROM Player_Response__c
+            WHERE Game__c = :gameId AND Story_ID__c = :g.Current_Story_ID__c
+        ]);
+        /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
+        stateChangeEvent.GameID__c = gameId;
+        stateChangeEvent.Type__c = 'ResetCards';
+        stateChangeEvent.Data__c = g.Current_Story_ID__c;
+        Eventbus.publish(stateChangeEvent);*/
+        PlanningPokerEventUtil.fireResetCardsEvent(gameId, g.Current_Story_ID__c);
+    }
+
+    @AuraEnabled
+    public static Boolean saveConsensus(
+        String storyId,
+        String objectApiName,
+        String consensusField,
+        String consensusValue
+    ) {
+        Boolean isSuccess = false;
+        Schema.SObjectType targetType = Schema.getGlobalDescribe()
+            .get(objectApiName);
+        if (targetType != null) {
+            sObject s = targetType.newSObject();
+            s.put('Id', storyId);
+            s.put(consensusField, consensusValue);
+            update s;
+            isSuccess = true;
+        }
+        return isSuccess;
+    }
+
+
+    /**
+     * Wrapper Classes 
+     */
+    
 
     public class PlayerResponse {
         @AuraEnabled

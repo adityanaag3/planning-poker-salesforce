@@ -36,3 +36,4 @@ $RECYCLE.BIN/
 
 # Profiles
 *.profile-meta.xml
+*.connectedApp-meta.xml

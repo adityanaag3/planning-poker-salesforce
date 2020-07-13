@@ -24,7 +24,7 @@ export default class PlayerApp extends LightningElement {
                     this.gameId = result.Id;
                     insertPlayer({
                         gameId: this.gameId,
-                        isSalesforePlayer: true
+                        isSalesforcePlayer: true
                     })
                         .then(insertPlayerResult => {
                             this.playerId = insertPlayerResult;
