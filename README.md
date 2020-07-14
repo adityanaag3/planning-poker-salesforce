@@ -132,6 +132,8 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
         </tr>
       </table>
     </li>
+    <li>Update the `Heroku App URL` record in the Custom Metadata Type `Game Settings` with the Heroku App URL generated in the previous step.</li>
+    <li>Optionally checkout the source code for the app [here](https://github.com/adityanaag3/planning-poker-heroku) to make modifications or test locally.</li>
 </ol>
 
 ## Game Setup
