@@ -71,9 +71,7 @@ export default class BacklogItemsForReview extends LightningElement {
 
     updateCurrentQuestionOnScreen(data) {
         if (this.gameSettings) {
-            // localStorage.setItem('currentPageToken_'+this.gameId, JSON.stringify({"token": this.pageTokenToRetrieve}));
             this.nextPageToken = data.records.nextPageToken;
-            // localStorage.setItem('nextPageToken_'+this.gameId, {"token": data.records.nextPageToken});
             let recordsFromListView = data.records.records;
             if (recordsFromListView && recordsFromListView.length > 0) {
                 let currentRecord = recordsFromListView[0];
@@ -182,13 +180,6 @@ export default class BacklogItemsForReview extends LightningElement {
                 this.gameSettings = undefined;
             });
 
-        /* if(localStorage.getItem('currentPageToken_'+this.gameId)){
-            
-        }
-
-        if(localStorage.getItem('nextPageToken_'+this.gameId)){
-           
-        } */
     }
 
     disconnectedCallback() {

@@ -171,18 +171,21 @@ public without sharing class PlanningPokerCtrl {
     @AuraEnabled
     public static void updateGameCurrentStory(String gameId, String storyId) {
         Game__c game = [
-            SELECT Id, Current_Story_ID__c
+            SELECT Id, Current_Story_ID__c, Timer_Duration__c
             FROM Game__c
             WHERE Id = :gameId
         ];
         if (storyId != game.Current_Story_ID__c) {
             game.Current_Story_ID__c = storyId;
-            update game;
-            /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-            stateChangeEvent.GameID__c = gameId;
-            stateChangeEvent.Type__c = 'StoryChange';
-            stateChangeEvent.Data__c = storyId;
-            Eventbus.publish(stateChangeEvent);*/
+           
+            if(game.Timer_Duration__c != null){
+                Long milliseconds = Datetime.now().getTime();
+                Integer timerDuration = Integer.valueOf(game.Timer_Duration__c);
+                milliseconds = milliseconds + (timerDuration * 1000);
+                game.Timer_Timestamp__c = String.valueOf(milliseconds);
+                update game;
+            }
+            
             PlanningPokerEventUtil.fireStoryChangeEvent(gameId, storyId);
         }
     }
@@ -203,11 +206,7 @@ public without sharing class PlanningPokerCtrl {
         if (nextPhase != null && game.Phase__c != nextPhase) {
             game.Phase__c = nextPhase;
             update game;
-            /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-            stateChangeEvent.GameID__c = gameId;
-            stateChangeEvent.Type__c = 'GamePhaseChange';
-            stateChangeEvent.Data__c = nextPhase;
-            Eventbus.publish(stateChangeEvent);*/
+            
             PlanningPokerEventUtil.fireGamePhaseChangeEvent(gameId, nextPhase);
         }
     }
@@ -416,18 +415,13 @@ public without sharing class PlanningPokerCtrl {
 
     @AuraEnabled
     public static void sendflipCardsEvent(String gameId, String flipped) {
-        /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-        stateChangeEvent.GameID__c = gameId;
-        stateChangeEvent.Type__c = 'CardFlip';
-        stateChangeEvent.Data__c = flipped;
-        Eventbus.publish(stateChangeEvent);*/
         PlanningPokerEventUtil.fireFlipCardsEvent(gameId, flipped);
     }
 
     @AuraEnabled
     public static void resetCards(String gameId) {
         Game__c g = [
-            SELECT Id, Current_Story_ID__c
+            SELECT Id, Current_Story_ID__c, Timer_Duration__c
             FROM Game__c
             WHERE Id = :gameId
         ];
@@ -436,11 +430,15 @@ public without sharing class PlanningPokerCtrl {
             FROM Player_Response__c
             WHERE Game__c = :gameId AND Story_ID__c = :g.Current_Story_ID__c
         ]);
-        /*Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
-        stateChangeEvent.GameID__c = gameId;
-        stateChangeEvent.Type__c = 'ResetCards';
-        stateChangeEvent.Data__c = g.Current_Story_ID__c;
-        Eventbus.publish(stateChangeEvent);*/
+
+        if(g.Timer_Duration__c != null){
+            Long milliseconds = Datetime.now().getTime();
+            Integer timerDuration = Integer.valueOf(g.Timer_Duration__c);
+            milliseconds = milliseconds + (timerDuration * 1000);
+            g.Timer_Timestamp__c = String.valueOf(milliseconds);
+            update g;
+        }
+
         PlanningPokerEventUtil.fireResetCardsEvent(gameId, g.Current_Story_ID__c);
     }
 

@@ -99,6 +99,29 @@ global with sharing class PlanningPokerRest {
                         );
                     }
                 }
+                when 'GetTimerTimestamp' {
+                    if (RestContext.request.params != null) {
+                        String gameId = RestContext.request.params.get(
+                            'gameId'
+                        );
+                        if (gameId != null) {
+                            List<Game__c> g = [select Id, Timer_Timestamp__c from Game__c where Id =: gameId];
+                            if(!g.isEmpty()){
+                                ppr.data = g[0].Timer_Timestamp__c;
+                            } else {
+                                throw new DataException('No Game exists with this ID');
+                            }
+                        } else {
+                            throw new RequiredParametersMissingException(
+                                'Required parameters missing'
+                            );
+                        }
+                    } else {
+                        throw new RequiredParametersMissingException(
+                            'Required parameters missing'
+                        );
+                    }
+                }
                 when else {
                     throw new NoSuchServiceException(
                         'The service you are trying to reach does not exist'
@@ -208,5 +231,8 @@ global with sharing class PlanningPokerRest {
     }
 
     global class RequiredParametersMissingException extends Exception {
+    }
+
+    global class DataException extends Exception {
     }
 }
