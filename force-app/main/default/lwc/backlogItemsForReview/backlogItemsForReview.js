@@ -36,6 +36,10 @@ export default class BacklogItemsForReview extends LightningElement {
 
     cardsFlipped = false;
 
+    get storyId() {
+        return this.currentItem.itemId;
+    }
+
     @wire(MessageContext)
     messageContext;
 

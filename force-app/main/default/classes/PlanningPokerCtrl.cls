@@ -268,6 +268,14 @@ public without sharing class PlanningPokerCtrl {
         return b;
     }
 
+    @AuraEnabled
+    public static String getQuestionTimeStamp(String gameId){
+        List<Game__c> g = [select Id, Timer_Timestamp__c from Game__c where Id =: gameId];
+        if(!g.isEmpty()){
+            return g[0].Timer_Timestamp__c;
+        }
+        return null;
+    }
 
     /**
      * Methods for Game Players

@@ -1,7 +1,11 @@
 import { LightningElement, api } from 'lwc';
 
+import getQuestionTimeStamp from '@salesforce/apex/PlanningPokerCtrl.getQuestionTimeStamp';
+
 export default class Timer extends LightningElement {
     @api durationInSeconds;
+    @api storyId;
+    @api gameId;
 
     secondsPassed = 0;
     secondsLeft;
@@ -27,8 +31,36 @@ export default class Timer extends LightningElement {
     }
 
     connectedCallback() {
-        this.secondsLeft = this.durationInSeconds;
-        this.startTimer();
+        this.secondsLeft = 0;
+        getQuestionTimeStamp({ gameId: this.gameId })
+            .then((data) => {
+                if (data) {
+                    let deadlineTimestamp = data;
+                    let date = new Date();
+                    let currentTimestamp = date.getTime();
+                    let secondsLeft = Math.round(
+                        (deadlineTimestamp - currentTimestamp) / 1000
+                    );
+                    if (secondsLeft > 0) {
+                        this.secondsLeft = secondsLeft;
+                        this.secondsPassed =
+                            this.durationInSeconds - this.secondsLeft;
+                        this.startTimer();
+                    } else {
+                        this.secondsLeft = 0;
+                        this.secondsPassed = this.durationInSeconds;
+                        this.dispatchEvent(new CustomEvent('timeup'));
+                    }
+                } else {
+                    this.secondsLeft = this.durationInSeconds;
+                    this.startTimer();
+                }
+            })
+            .catch((error) => {
+                this.error = error;
+                // eslint-disable-next-line no-console
+                console.error(error);
+            });
     }
 
     getColor(percent) {
