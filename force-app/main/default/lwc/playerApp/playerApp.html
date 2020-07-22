@@ -1,4 +1,7 @@
 <template>
+    <template if:true={showSpinner}>
+        <c-spinner show-on-load="true"></c-spinner>
+    </template>
     <lightning-card title="Planning Poker" icon-name="custom:custom66">
         <div class="slds-var-p-around_medium">
             <template if:true={isGameSelectionPhase}>
@@ -29,10 +32,12 @@
                 </div>
             </template>
             <template if:true={isGamePlayPhase}>
-                <c-backlog-items-for-review
+                <c-player-backlog-items
                     game-id={gameId}
                     player-id={playerId}
-                ></c-backlog-items-for-review>
+                    show-timer={showTimer}
+                    timer-duration={timerDuration}
+                ></c-player-backlog-items>
             </template>
         </div>
     </lightning-card>

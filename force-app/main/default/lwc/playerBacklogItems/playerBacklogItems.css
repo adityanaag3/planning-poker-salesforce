@@ -1,0 +1,27 @@
+.pokerCard {
+    width: 5rem;
+    height: 7rem;
+    border-radius: 1rem;
+    font-size: 2rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 7rem;
+    margin-top: 4rem;
+    color: white;
+}
+
+.allPokerCards {
+    height: 10rem;
+    margin-bottom: -1rem;
+    overflow-x: auto;
+}
+
+.selectedPokerCard {
+    margin-top: 1.4rem;
+    transform: rotate(10deg);
+    transition: all 0.5s ease-in;
+}
+
+.dashed-border {
+    border-bottom: 1px dashed #ddd;
+}

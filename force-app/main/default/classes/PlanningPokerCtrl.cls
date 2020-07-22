@@ -322,6 +322,14 @@ public without sharing class PlanningPokerCtrl {
         Boolean isHost,
         Boolean isSalesforcePlayer
     ) {
+        if(isHost == null){
+            isHost = false;
+        }
+
+        if(isSalesforcePlayer == null){
+            isSalesforcePlayer = false;
+        }
+        
         if (isHost || isSalesforcePlayer) {
             playerName = UserInfo.getName();
         }

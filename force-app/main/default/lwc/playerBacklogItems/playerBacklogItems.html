@@ -1,0 +1,94 @@
+<template>
+    <template if:false={currentItem}>
+        <div class="slds-text-align_center">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="315"
+                height="142"
+                class="slds-var-m-bottom_medium"
+            >
+                <use xlink:href={noDataSvgUrl}></use>
+            </svg>
+            <br />
+            There are no unvoted items left. Enjoy.
+        </div>
+    </template>
+    <template if:true={currentItem}>
+        <div
+            class="slds-grid slds-gutters dashed-border slds-var-m-bottom_large"
+        >
+            <div class="slds-col slds-size_2-of-3">
+                <div class="slds-var-p-left_medium">
+                    <div class="slds-text-title_caps slds-var-m-bottom_small">
+                        Story
+                    </div>
+                    <div
+                        class="slds-text-heading_small slds-var-m-bottom_medium"
+                    >
+                        {currentItem.itemName}
+                    </div>
+                    <div class="slds-text-title_caps slds-var-m-bottom_small">
+                        Description
+                    </div>
+                    <div
+                        class="slds-text-heading_small slds-var-m-bottom_medium"
+                    >
+                        {currentItem.itemDescription}
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-align_absolute-center slds-var-m-bottom_large">
+                    <template if:true={showTimer}>
+                        <c-timer
+                            duration-in-seconds={timerDuration}
+                            ontimeup={handleTimeUp}
+                            story-id={storyId}
+                            game-id={gameId}
+                        ></c-timer>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <template if:true={playerId}>
+            <div
+                class="slds-text-title_caps slds-var-m-bottom_small slds-var-p-left_medium"
+            >
+                Your Vote
+            </div>
+            <div
+                class="slds-scrollable_none slds-grid slds-var-m-bottom_large allPokerCards dashed-border"
+            >
+                <template if:true={estimateOptions}>
+                    <template for:each={estimateOptions} for:item="estOption">
+                        <div class="slds-col" key={estOption.name}>
+                            <div
+                                class="slds-text-align_center pokerCard"
+                                data-label={estOption.name}
+                                onclick={handleSelectedOption}
+                                style={estOption.colorHexCode}
+                            >
+                                {estOption.name}
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </template>
+
+        <div
+            class="allResponses slds-var-m-top_x-large slds-var-p-around_medium"
+        >
+            <div class="slds-text-title_caps slds-var-m-bottom_large">
+                Your Team's Votes
+            </div>
+            <c-player-responses
+                game-id={gameId}
+                story-id={currentItem.itemId}
+                cards-flipped={cardsFlipped}
+            >
+            </c-player-responses>
+        </div>
+    </template>
+</template>
