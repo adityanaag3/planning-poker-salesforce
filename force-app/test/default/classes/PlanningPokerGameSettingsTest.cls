@@ -78,4 +78,10 @@ public class PlanningPokerGameSettingsTest {
 
         Test.stopTest();
     }
+
+    @isTest
+    static void testHerokuAppURL() {
+        String url = PlanningPokerCtrl.getHerokuAppURL();
+        system.assert(url == null);
+    }
 }

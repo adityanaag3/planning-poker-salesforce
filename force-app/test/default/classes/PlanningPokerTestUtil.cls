@@ -33,7 +33,11 @@ public class PlanningPokerTestUtil {
 
         g = new Game__c();
         g.Name = 'Test 4';
-        g.Config__c = null;
+        g.Host_can_vote__c = true;
+        g.Config__c =
+            '{"cardSet":"' +
+            cs.Id +
+            '","object":"Content_Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
         games.add(g);
 
         insert games;
@@ -51,5 +55,46 @@ public class PlanningPokerTestUtil {
         backlogItems.add(bi);
 
         insert backlogItems;
+
+        List<Player__c> players = new List<Player__c>();
+        Player__c p = new Player__c();
+        p.Name = 'player1';
+        p.Game__c = games[1].Id;
+        players.add(p);
+
+        p = new Player__c();
+        p.Name = 'player2';
+        p.Game__c = games[1].Id;
+        players.add(p);
+
+        p = new Player__c();
+        p.Name = UserInfo.getName();
+        p.Game__c = games[1].Id;
+        players.add(p);
+
+        p = new Player__c();
+        p.Name = 'player3';
+        p.Game__c = games[0].Id;
+        players.add(p);
+
+        p = new Player__c();
+        p.Name = UserInfo.getName();
+        p.Game__c = games[0].Id;
+        players.add(p);
+
+        insert players;
+    }
+
+    public static PlanningPokerRest.PlanningPokerServicesResponse deserializeValues(
+        String response
+    ) {
+        PlanningPokerRest.PlanningPokerServicesResponse ppr = new PlanningPokerRest.PlanningPokerServicesResponse();
+        Map<String, Object> params = (Map<String, Object>) JSON.deserializeUntyped(
+            response
+        );
+        ppr.isSuccess = (Boolean) params.get('isSuccess');
+        ppr.errorMsg = (String) params.get('errorMsg');
+        ppr.data = params.get('data');
+        return ppr;
     }
 }

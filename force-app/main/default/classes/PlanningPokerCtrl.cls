@@ -80,7 +80,7 @@ public without sharing class PlanningPokerCtrl {
             for (Game_Setting__mdt gs : gameSettings) {
                 if (gs.DeveloperName == 'Heroku_App_URL') {
                     url = gs.Value__c;
-                    if (!url.endsWith('/')) {
+                    if (url != null && !url.endsWith('/')) {
                         url = url + '/';
                     }
                 }

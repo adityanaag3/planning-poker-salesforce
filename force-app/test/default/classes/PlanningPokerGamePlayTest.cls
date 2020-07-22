@@ -11,7 +11,7 @@ public class PlanningPokerGamePlayTest {
 
         Test.startTest();
         List<Game__c> games = PlanningPokerCtrl.getValidGames();
-        System.assertEquals(1, games.size());
+        System.assertEquals(2, games.size());
 
         Game__c game = PlanningPokerCtrl.getGameByGameKey('000000');
         system.assertEquals(null, game);
@@ -78,6 +78,50 @@ public class PlanningPokerGamePlayTest {
         g = [SELECT Id, Phase__c FROM Game__c WHERE Name = 'Test 4'];
         system.assertEquals('Completed', g.Phase__c);
 
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testIfCurrentStoryIsRetrieved() {
+        Game__c g1 = [SELECT Id FROM Game__c WHERE Name = 'Test 1'];
+        Game__c g2 = [SELECT Id FROM Game__c WHERE Name = 'Test 2'];
+
+        Test.startTest();
+        PlanningPokerCtrl.BacklogItem b = PlanningPokerCtrl.getCurrentStory(
+            g1.Id
+        );
+        system.assertEquals(null, b);
+
+        b = PlanningPokerCtrl.getCurrentStory(g2.Id);
+        system.assertEquals(null, b);
+
+        Content_Backlog_Item__c cbi = [
+            SELECT Id, User_Story__c, Notes__c
+            FROM Content_Backlog_Item__c
+            LIMIT 1
+        ];
+
+        g2.Current_Story_Id__c = cbi.Id;
+        update g2;
+
+        b = PlanningPokerCtrl.getCurrentStory(g2.Id);
+        system.assertEquals(cbi.User_Story__c, b.itemName);
+        system.assertEquals(cbi.Notes__c, b.itemDescription);
+        system.assertEquals(g2.Current_Story_Id__c, b.itemId);
+
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testIfTimeStampIsReturned() {
+        Long currentTimeStamp = Datetime.now().getTime();
+        Game__c game = [SELECT Id FROM Game__c WHERE Name = 'Test 2'];
+        game.Timer_Timestamp__c = String.valueOf(currentTimeStamp);
+        update game;
+
+        Test.startTest();
+        String timeStamp = PlanningPokerCtrl.getQuestionTimeStamp(game.Id);
+        system.assertEquals(String.valueOf(currentTimeStamp), timeStamp);
         Test.stopTest();
     }
 }
