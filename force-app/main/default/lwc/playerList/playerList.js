@@ -16,37 +16,37 @@ export default class PlayerList extends LightningElement {
 
     connectedCallback() {
         insertPlayer({ gameId: this.gameId, isHost: true })
-            .then(result => {
+            .then((result) => {
                 this.currentPlayerId = result;
                 localStorage.setItem(
                     'playerId_' + this.gameId,
                     this.currentPlayerId
                 );
                 getGamePlayers({ gameId: this.gameId })
-                    .then(gamePlayerResult => {
+                    .then((gamePlayerResult) => {
                         this.playerNames = gamePlayerResult;
                         this.error = undefined;
                         this.initEmpApi();
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.error = error;
                     });
             })
-            .catch(error => {
+            .catch((error) => {
                 this.error = error;
             });
     }
 
     initEmpApi() {
-        empApi.onError(error => {
+        empApi.onError((error) => {
             // eslint-disable-next-line no-console
             console.error('Streaming API error: ' + JSON.stringify(error));
         });
         empApi
-            .subscribe('/topic/GamePlayers', -1, pushNotification => {
+            .subscribe('/topic/GamePlayers', -1, (pushNotification) => {
                 this.handlePlayerUpdate(pushNotification);
             })
-            .then(response => {
+            .then((response) => {
                 this.subscription = response;
             });
     }
@@ -82,15 +82,15 @@ export default class PlayerList extends LightningElement {
         deleteAllPlayers({ gameId: this.gameId, exceptMe: true })
             .then(() => {
                 getGamePlayers({ gameId: this.gameId })
-                    .then(result => {
+                    .then((result) => {
                         this.playerNames = result;
                         this.error = undefined;
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.error = error;
                     });
             })
-            .catch(error => {
+            .catch((error) => {
                 this.error = error;
             });
     }

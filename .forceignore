@@ -3,6 +3,11 @@
 #
 
 package.xml
+**appMenu
+**appSwitcher
+**objectTranslations
+**profiles
+**settings
 
 # LWC configuration files
 **/jsconfig.json

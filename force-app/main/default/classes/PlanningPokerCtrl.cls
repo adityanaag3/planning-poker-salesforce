@@ -1,9 +1,8 @@
 public without sharing class PlanningPokerCtrl {
-    
     /**
      *  Methods for Game Settings
      */
-    
+
     @AuraEnabled(cacheable=true)
     public static List<Card_Set__mdt> getAvailableCardSets() {
         return [SELECT Id, MasterLabel FROM Card_Set__mdt];
@@ -31,7 +30,13 @@ public without sharing class PlanningPokerCtrl {
     public static GameSettings getGameSettings(String gameId) {
         GameSettings gs;
         Game__c game = [
-            SELECT Id, Name, Show_Timer__c, Timer_Duration__c, Config__c, Question_Offset__c
+            SELECT
+                Id,
+                Name,
+                Show_Timer__c,
+                Timer_Duration__c,
+                Config__c,
+                Question_Offset__c
             FROM Game__c
             WHERE Id = :gameId
         ];
@@ -127,7 +132,6 @@ public without sharing class PlanningPokerCtrl {
         return allCards;
     }
 
-
     /**
      *  Methods for Game Launch and Phase Updates
      */
@@ -169,18 +173,26 @@ public without sharing class PlanningPokerCtrl {
     }
 
     @AuraEnabled
-    public static void updateGameCurrentStory(String gameId, String storyId, Integer offset) {
+    public static void updateGameCurrentStory(
+        String gameId,
+        String storyId,
+        Integer offset
+    ) {
         Game__c game = [
-            SELECT Id, Current_Story_ID__c, Timer_Duration__c, Question_Offset__c
+            SELECT
+                Id,
+                Current_Story_ID__c,
+                Timer_Duration__c,
+                Question_Offset__c
             FROM Game__c
             WHERE Id = :gameId
         ];
         if (storyId != game.Current_Story_ID__c) {
             game.Question_Offset__c = offset;
-            
+
             game.Current_Story_ID__c = storyId;
 
-            if(game.Timer_Duration__c != null){
+            if (game.Timer_Duration__c != null) {
                 Long milliseconds = Datetime.now().getTime();
                 Integer timerDuration = Integer.valueOf(game.Timer_Duration__c);
                 milliseconds = milliseconds + (timerDuration * 1000);
@@ -188,7 +200,7 @@ public without sharing class PlanningPokerCtrl {
             }
 
             update game;
-            
+
             PlanningPokerEventUtil.fireStoryChangeEvent(gameId, storyId);
         }
     }
@@ -209,7 +221,7 @@ public without sharing class PlanningPokerCtrl {
         if (nextPhase != null && game.Phase__c != nextPhase) {
             game.Phase__c = nextPhase;
             update game;
-            
+
             PlanningPokerEventUtil.fireGamePhaseChangeEvent(gameId, nextPhase);
         }
     }
@@ -272,9 +284,13 @@ public without sharing class PlanningPokerCtrl {
     }
 
     @AuraEnabled
-    public static String getQuestionTimeStamp(String gameId){
-        List<Game__c> g = [select Id, Timer_Timestamp__c from Game__c where Id =: gameId];
-        if(!g.isEmpty()){
+    public static String getQuestionTimeStamp(String gameId) {
+        List<Game__c> g = [
+            SELECT Id, Timer_Timestamp__c
+            FROM Game__c
+            WHERE Id = :gameId
+        ];
+        if (!g.isEmpty()) {
             return g[0].Timer_Timestamp__c;
         }
         return null;
@@ -322,14 +338,14 @@ public without sharing class PlanningPokerCtrl {
         Boolean isHost,
         Boolean isSalesforcePlayer
     ) {
-        if(isHost == null){
+        if (isHost == null) {
             isHost = false;
         }
 
-        if(isSalesforcePlayer == null){
+        if (isSalesforcePlayer == null) {
             isSalesforcePlayer = false;
         }
-        
+
         if (isHost || isSalesforcePlayer) {
             playerName = UserInfo.getName();
         }
@@ -359,7 +375,6 @@ public without sharing class PlanningPokerCtrl {
         }
         return null;
     }
-
 
     /**
      *  Methods for Player Responses
@@ -427,7 +442,6 @@ public without sharing class PlanningPokerCtrl {
         return playerResponses;
     }
 
-
     /**
      *  Methods for Host Controls
      */
@@ -450,7 +464,7 @@ public without sharing class PlanningPokerCtrl {
             WHERE Game__c = :gameId AND Story_ID__c = :g.Current_Story_ID__c
         ]);
 
-        if(g.Timer_Duration__c != null){
+        if (g.Timer_Duration__c != null) {
             Long milliseconds = Datetime.now().getTime();
             Integer timerDuration = Integer.valueOf(g.Timer_Duration__c);
             milliseconds = milliseconds + (timerDuration * 1000);
@@ -458,7 +472,10 @@ public without sharing class PlanningPokerCtrl {
             update g;
         }
 
-        PlanningPokerEventUtil.fireResetCardsEvent(gameId, g.Current_Story_ID__c);
+        PlanningPokerEventUtil.fireResetCardsEvent(
+            gameId,
+            g.Current_Story_ID__c
+        );
     }
 
     @AuraEnabled
@@ -481,11 +498,9 @@ public without sharing class PlanningPokerCtrl {
         return isSuccess;
     }
 
-
     /**
-     * Wrapper Classes 
+     * Wrapper Classes
      */
-    
 
     public class PlayerResponse {
         @AuraEnabled

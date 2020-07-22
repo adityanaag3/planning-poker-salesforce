@@ -1,6 +1,5 @@
 public with sharing class PlanningPokerEventUtil {
-    
-    public static void fireStoryChangeEvent(String gameId, String storyId){
+    public static void fireStoryChangeEvent(String gameId, String storyId) {
         Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
         stateChangeEvent.GameID__c = gameId;
         stateChangeEvent.Type__c = 'StoryChange';
@@ -8,7 +7,10 @@ public with sharing class PlanningPokerEventUtil {
         Eventbus.publish(stateChangeEvent);
     }
 
-    public static void fireGamePhaseChangeEvent(String gameId, String nextPhase){
+    public static void fireGamePhaseChangeEvent(
+        String gameId,
+        String nextPhase
+    ) {
         Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
         stateChangeEvent.GameID__c = gameId;
         stateChangeEvent.Type__c = 'GamePhaseChange';
@@ -16,7 +18,7 @@ public with sharing class PlanningPokerEventUtil {
         Eventbus.publish(stateChangeEvent);
     }
 
-    public static void fireFlipCardsEvent(String gameId, String flipped){
+    public static void fireFlipCardsEvent(String gameId, String flipped) {
         Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
         stateChangeEvent.GameID__c = gameId;
         stateChangeEvent.Type__c = 'CardFlip';
@@ -24,7 +26,7 @@ public with sharing class PlanningPokerEventUtil {
         Eventbus.publish(stateChangeEvent);
     }
 
-    public static void fireResetCardsEvent(String gameId, String storyId){
+    public static void fireResetCardsEvent(String gameId, String storyId) {
         Game_State_Change__e stateChangeEvent = new Game_State_Change__e();
         stateChangeEvent.GameID__c = gameId;
         stateChangeEvent.Type__c = 'ResetCards';

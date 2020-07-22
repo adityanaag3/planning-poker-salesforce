@@ -7,23 +7,25 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import * as empApi from 'lightning/empApi';
 
 export default class PlayerApp extends LightningElement {
-
     showSpinner = false;
 
-    get isGameSelectionPhase(){
-        return this.gameId ? false: true;
+    get isGameSelectionPhase() {
+        return this.gameId ? false : true;
     }
-    
-    get isGamePlayPhase(){
+
+    get isGamePlayPhase() {
         return this.gameId && this.gameStatus === 'In Progress' && this.playerId
-        ? true
-        : false;
+            ? true
+            : false;
     }
 
-    get isPlayerRegistrationPhase(){
-        return this.gameId && this.gameStatus !== 'In Progress' && this.gameStatus !== 'Completed'
+    get isPlayerRegistrationPhase() {
+        return (
+            this.gameId &&
+            this.gameStatus !== 'In Progress' &&
+            this.gameStatus !== 'Completed'
+        );
     }
-
 
     gameStateChange_subscription;
 
@@ -52,15 +54,15 @@ export default class PlayerApp extends LightningElement {
     }
 
     initEmpApi() {
-        empApi.onError(error => {
+        empApi.onError((error) => {
             // eslint-disable-next-line no-console
             console.error('Streaming API error: ' + JSON.stringify(error));
         });
         empApi
-            .subscribe('/event/Game_State_Change__e', -1, message => {
+            .subscribe('/event/Game_State_Change__e', -1, (message) => {
                 this.handleGameStateChange(message);
             })
-            .then(response => {
+            .then((response) => {
                 this.gameStateChange_subscription = response;
             });
     }
@@ -74,23 +76,27 @@ export default class PlayerApp extends LightningElement {
                 if (this.gameStatus === 'Completed') {
                     this.gameId = null;
                 }
-            }
-            else if (payload.Type__c === 'StoryChange') {
-                this.template.querySelector('c-player-backlog-items').getUnvotedItem();
-            }
-            else if (payload.Type__c === 'CardFlip') {
-                this.template.querySelector('c-player-backlog-items').flipCards(payload.Data__c);
-            }
-            else if (payload.Type__c === 'ResetCards') {
-                this.template.querySelector('c-player-backlog-items').resetCards();
+            } else if (payload.Type__c === 'StoryChange') {
+                this.template
+                    .querySelector('c-player-backlog-items')
+                    .getUnvotedItem();
+            } else if (payload.Type__c === 'CardFlip') {
+                this.template
+                    .querySelector('c-player-backlog-items')
+                    .flipCards(payload.Data__c);
+            } else if (payload.Type__c === 'ResetCards') {
+                this.template
+                    .querySelector('c-player-backlog-items')
+                    .resetCards();
             }
         }
     }
 
-    fetchGame(){
+    fetchGame() {
         this.showSpinner = true;
         getGameByGameKey({ gameKey: this.gameKey })
-            .then(result => {
+            .then((result) => {
+                this.error = undefined;
                 if (result && result.Id) {
                     this.gameId = result.Id;
                     this.gameStatus = result.Phase__c;
@@ -100,11 +106,12 @@ export default class PlayerApp extends LightningElement {
                         gameId: this.gameId,
                         isSalesforcePlayer: true
                     })
-                        .then(insertPlayerResult => {
+                        .then((insertPlayerResult) => {
+                            this.error = undefined;
                             this.playerId = insertPlayerResult;
                             this.showSpinner = false;
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             this.error = error;
                             this.showSpinner = false;
                             console.error(error);
@@ -121,7 +128,7 @@ export default class PlayerApp extends LightningElement {
                     );
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 this.showSpinner = false;
                 this.error = error;
                 console.error(error);

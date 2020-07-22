@@ -32,23 +32,23 @@ export default class PlayerList extends LightningElement {
     }
 
     initEmpApi() {
-        empApi.onError(error => {
+        empApi.onError((error) => {
             // eslint-disable-next-line no-console
             console.error('Streaming API error: ' + JSON.stringify(error));
         });
         empApi
-            .subscribe('/topic/GamePlayers', -1, pushNotification => {
+            .subscribe('/topic/GamePlayers', -1, (pushNotification) => {
                 this.handlePlayerCreationEvent(pushNotification);
             })
-            .then(response => {
+            .then((response) => {
                 this.p_subscription = response;
             });
 
         empApi
-            .subscribe('/topic/PlayerResponses', -1, pushNotification => {
+            .subscribe('/topic/PlayerResponses', -1, (pushNotification) => {
                 this.refreshCards(pushNotification);
             })
-            .then(response => {
+            .then((response) => {
                 this.pr_subscription = response;
             });
     }

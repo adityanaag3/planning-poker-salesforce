@@ -52,7 +52,7 @@ export default class HostApp extends LightningElement {
             changeGamePhase({
                 gameId: this.gameId,
                 currentPhase: gamePhase
-            }).catch(error => {
+            }).catch((error) => {
                 console.error(error);
             });
         }
@@ -69,7 +69,7 @@ export default class HostApp extends LightningElement {
         changeGamePhase({
             gameId: this.gameId,
             currentPhase: 'Registration'
-        }).catch(error => {
+        }).catch((error) => {
             console.error(error);
         });
     }

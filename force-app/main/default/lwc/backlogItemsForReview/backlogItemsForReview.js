@@ -68,7 +68,7 @@ export default class BacklogItemsForReview extends LightningElement {
     })
     processData({ data, error }) {
         if (data) {
-            if(this.isOffsetInProgress){
+            if (this.isOffsetInProgress) {
                 this.isOffsetInProgress = false;
                 this.pageTokenToRetrieve = data.records.nextPageToken;
                 this.pageSize = 1;
@@ -117,11 +117,13 @@ export default class BacklogItemsForReview extends LightningElement {
             const payload = { recordId: storyId, state: 'storychange' };
             publish(this.messageContext, GameStateChange, payload);
 
-            updateGameCurrentStory({ gameId: this.gameId, storyId, offset: this.currentOffset }).catch(
-                error => {
-                    console.error(error);
-                }
-            );
+            updateGameCurrentStory({
+                gameId: this.gameId,
+                storyId,
+                offset: this.currentOffset
+            }).catch((error) => {
+                console.error(error);
+            });
         }
     }
 
@@ -141,7 +143,7 @@ export default class BacklogItemsForReview extends LightningElement {
             this.subscription = subscribe(
                 this.messageContext,
                 GameStateChange,
-                message => this.handleMessage(message),
+                (message) => this.handleMessage(message),
                 { scope: APPLICATION_SCOPE }
             );
         }
@@ -182,11 +184,11 @@ export default class BacklogItemsForReview extends LightningElement {
         this.subscribeToMessageChannel();
 
         getGameSettings({ gameId: this.gameId })
-            .then(result => {
+            .then((result) => {
                 this.gameSettings = result;
 
                 this.currentOffset = this.gameSettings.game.Question_Offset__c;
-                if(this.gameSettings.game.Question_Offset__c !== 0){
+                if (this.gameSettings.game.Question_Offset__c !== 0) {
                     this.pageSize = this.gameSettings.game.Question_Offset__c;
                     this.isOffsetInProgress = true;
                 } else {
@@ -203,11 +205,10 @@ export default class BacklogItemsForReview extends LightningElement {
                 ];
                 this.listViewId = result.listViewId;
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(error);
                 this.gameSettings = undefined;
             });
-
     }
 
     disconnectedCallback() {
@@ -227,13 +228,13 @@ export default class BacklogItemsForReview extends LightningElement {
             .then(() => {
                 this.error = undefined;
             })
-            .catch(error => {
+            .catch((error) => {
                 this.error = error;
             });
     }
 
     resetCards() {
-        this.template.querySelectorAll('.pokerCard').forEach(node => {
+        this.template.querySelectorAll('.pokerCard').forEach((node) => {
             node.classList.remove('selectedPokerCard');
         });
     }
@@ -249,7 +250,7 @@ export default class BacklogItemsForReview extends LightningElement {
         sendflipCardsEvent({
             gameId: this.gameId,
             flipped: this.cardsFlipped
-        }).catch(error => {
+        }).catch((error) => {
             console.error(error);
         });
     }

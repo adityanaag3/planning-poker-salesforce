@@ -45,7 +45,7 @@ export default class HostControls extends LightningElement {
             this.subscription = subscribe(
                 this.messageContext,
                 GameStateChange,
-                message => this.handleMessage(message),
+                (message) => this.handleMessage(message),
                 { scope: APPLICATION_SCOPE }
             );
         }
@@ -61,10 +61,10 @@ export default class HostControls extends LightningElement {
         if (message.state === 'started') {
             this.gameId = message.recordId;
             getGameSettings({ gameId: this.gameId })
-                .then(result => {
+                .then((result) => {
                     this.gameSettings = result;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error(error);
                     this.gameSettings = undefined;
                 });
@@ -104,7 +104,7 @@ export default class HostControls extends LightningElement {
         sendflipCardsEvent({
             gameId: this.gameId,
             flipped: this.flipped
-        }).catch(error => {
+        }).catch((error) => {
             console.error(error);
         });
     }
@@ -124,7 +124,7 @@ export default class HostControls extends LightningElement {
                 publish(this.messageContext, GameStateChange, payload);
                 this.gameId = undefined;
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(error);
             });
     }
@@ -135,7 +135,7 @@ export default class HostControls extends LightningElement {
                 const payload = { recordId: this.gameId, state: 'resetcards' };
                 publish(this.messageContext, GameStateChange, payload);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(error);
             });
     }
@@ -157,7 +157,7 @@ export default class HostControls extends LightningElement {
                     })
                 );
             })
-            .catch(error => {
+            .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'An error occurred',

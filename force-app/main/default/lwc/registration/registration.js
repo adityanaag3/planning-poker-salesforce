@@ -35,7 +35,7 @@ export default class Registration extends LightningElement {
             this.subscription = subscribe(
                 this.messageContext,
                 GameStateChange,
-                message => this.handleMessage(message),
+                (message) => this.handleMessage(message),
                 { scope: APPLICATION_SCOPE }
             );
         }

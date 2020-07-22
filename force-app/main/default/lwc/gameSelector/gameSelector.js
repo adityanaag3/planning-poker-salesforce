@@ -22,7 +22,7 @@ export default class GameSelector extends LightningElement {
     doLaunchGame() {
         let selectedGamePhase;
         if (this.validGames.data) {
-            this.validGames.data.forEach(game => {
+            this.validGames.data.forEach((game) => {
                 if (game.Id === this.selectedGame) {
                     selectedGamePhase = game.Phase__c;
                 }

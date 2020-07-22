@@ -29,6 +29,7 @@ This Planning Poker app offers 2 custom apps on Salesforce: The Host App and the
 You can optionally also install the guest version of the player app on Heroku to allow players without Salesforce Licenses to paricipate. You'll need a free [Heroku account](https://signup.heroku.com) to set it up. A free account lets you run the game with a small group of players. If you run the game with a larger group, consider upgrading to a [Hobby Dyno](https://www.heroku.com/dynos).
 
 ## Features
+
 <ol>
     <li><b>Choose your own User Story Source</b> Before starting a game, you can select any Salesforce object to be the source of the list of user stories, and save the consensus (Story points) directly to the user story records.&nbsp;</li>
     <li><b>Use pre-defined card sets or create your own</b> This app comes with pre-defined card sets like Fibonacci and multiples of two. You can also create your own custom card sets.</li>
@@ -38,23 +39,25 @@ You can optionally also install the guest version of the player app on Heroku to
 
 ## Technology Stack
 
-* The Host App and Player App on Salesforce are built using Lightning Web Components.
-* The app relies on Application Events, Platform Events and Push Topics to publish game state changes.
-    * The Lightning web components use the empApi and Lightning Message service to send and receive these events.
-* A combination of Salesforce data and HTML 5 Local Storage is used to maintain game state across page refreshes.
-* The Guest Player App is built using Lightning Web Components Open Source and uses Node.js as its backend.
-* It communicates with Salesforce using Custom Apex REST APIs.
-* It uses the OAuth JWT Bearer flow to connect with Salesforce.
-* The Node.js server uses Server Sent Events to deliver notifications to the HTML client.
+-   The Host App and Player App on Salesforce are built using Lightning Web Components.
+-   The app relies on Application Events, Platform Events and Push Topics to publish game state changes.
+    -   The Lightning web components use the empApi and Lightning Message service to send and receive these events.
+-   A combination of Salesforce data and HTML 5 Local Storage is used to maintain game state across page refreshes.
+-   The Guest Player App is built using Lightning Web Components Open Source and uses Node.js as its backend.
+-   It communicates with Salesforce using Custom Apex REST APIs.
+-   It uses the OAuth JWT Bearer flow to connect with Salesforce.
+-   The Node.js server uses Server Sent Events to deliver notifications to the HTML client.
 
 ## Installation
 
 ### Host and Player app for Salesforce Users
 
 #### Using a package
+
 Coming Soon!
 
 #### Using SFDX Commands
+
 <ol>
     <li>Set up your Salesforce DX environment (see this <a href="https://trailhead.salesforce.com/en/content/learn/modules/sfdx_app_dev/sfdx_app_dev_setup_dx">Trailhead project</a> for guided steps):
         <ul>
@@ -83,7 +86,9 @@ Once the script completes, it will open your new scratch org in a browser tab. I
 </ol>
 
 ### Player app for Guests
+
 Guests are players without Salesforce Licenses. Here are a few additional steps you need to follow
+
 <ol>
     <li>Create a self signed certificate using the command
     <pre>openssl req  -nodes -new -x509  -keyout private.pem -out server.cert</pre>
@@ -145,7 +150,6 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 1. Create a new Game by entering a name and optional description
 1. On the Game detail, select the source of your user stories.
 
-
 ### Hosting a game
 
 1. To start hosting the app, navigate to the Host Planning Poker Tab
@@ -166,7 +170,6 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 3. Once a user story is shown, click on a Card to cast your vote.
 4. Once the host navigates to the next story, your screen refreshes automatically. If not, refresh your screen.
 
-
 ### Playing a game on Heroku
 
 1. Navigate to the unique Game URL shared by the host.
@@ -174,11 +177,10 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 3. Once a user story is shown, click on a Card to cast your vote.
 4. Once the host navigates to the next story, your screen refreshes automatically. If not, refresh your screen.
 
-
 ## Roadmap
 
-* Preserve the current question when host refreshes their page
-* Ability to install app using Unlocked Packages
+-   Preserve the current question when host refreshes their page
+-   Ability to install app using Unlocked Packages
 
 ## Building and contributing
 

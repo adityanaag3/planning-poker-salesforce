@@ -12,7 +12,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Topic__c</field>
+                <field>User_Story__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

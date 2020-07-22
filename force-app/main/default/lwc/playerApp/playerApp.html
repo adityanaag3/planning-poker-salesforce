@@ -1,6 +1,9 @@
 <template>
     <template if:true={showSpinner}>
-        <c-spinner show-on-load="true"></c-spinner>
+        <c-spinner></c-spinner>
+    </template>
+    <template if:true={error}>
+        <c-error-panel errors={error}></c-error-panel>
     </template>
     <lightning-card title="Planning Poker" icon-name="custom:custom66">
         <div class="slds-var-p-around_medium">

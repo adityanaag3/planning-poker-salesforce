@@ -60,13 +60,13 @@ export default class PlayerBacklogItems extends LightningElement {
             .then(() => {
                 this.error = undefined;
             })
-            .catch(error => {
+            .catch((error) => {
                 this.error = error;
             });
     }
 
-    clearSelectedPokerCard(){
-        this.template.querySelectorAll('.pokerCard').forEach(node => {
+    clearSelectedPokerCard() {
+        this.template.querySelectorAll('.pokerCard').forEach((node) => {
             node.classList.remove('selectedPokerCard');
         });
     }

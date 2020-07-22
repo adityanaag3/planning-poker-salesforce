@@ -52,7 +52,7 @@ export default class GameSettings extends LightningElement {
 
     connectedCallback() {
         getGameSettings({ gameId: this.recordId })
-            .then(result => {
+            .then((result) => {
                 if (result) {
                     this.selectedCardSet = result.cardSet;
                     this.selectedNameField = result.nameField;
@@ -62,7 +62,7 @@ export default class GameSettings extends LightningElement {
                     this.selectedObject = result.objectApiName;
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(error);
             });
     }
@@ -139,7 +139,7 @@ export default class GameSettings extends LightningElement {
             listView: this.selectedListViewId
         };
 
-        if (Object.keys(gameSettings).every(key => gameSettings[key])) {
+        if (Object.keys(gameSettings).every((key) => gameSettings[key])) {
             fields[ID_FIELD.fieldApiName] = this.recordId;
             fields[GAME_SETTINGS_FIELD.fieldApiName] = JSON.stringify(
                 gameSettings
@@ -155,7 +155,7 @@ export default class GameSettings extends LightningElement {
                         })
                     );
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.dispatchEvent(
                         new ShowToastEvent({
                             title:

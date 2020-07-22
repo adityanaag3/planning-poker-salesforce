@@ -105,11 +105,17 @@ global with sharing class PlanningPokerRest {
                             'gameId'
                         );
                         if (gameId != null) {
-                            List<Game__c> g = [select Id, Timer_Timestamp__c from Game__c where Id =: gameId];
-                            if(!g.isEmpty()){
+                            List<Game__c> g = [
+                                SELECT Id, Timer_Timestamp__c
+                                FROM Game__c
+                                WHERE Id = :gameId
+                            ];
+                            if (!g.isEmpty()) {
                                 ppr.data = g[0].Timer_Timestamp__c;
                             } else {
-                                throw new DataException('No Game exists with this ID');
+                                throw new DataException(
+                                    'No Game exists with this ID'
+                                );
                             }
                         } else {
                             throw new RequiredParametersMissingException(
