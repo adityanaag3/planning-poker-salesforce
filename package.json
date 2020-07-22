@@ -3,6 +3,10 @@
     "private": true,
     "version": "1.0.0",
     "description": "A Planning Poker App built on Salesforce",
+    "engines": {
+        "node": ">= 10.13.0",
+        "npm": ">= 6.5.0"
+    },
     "scripts": {
         "lint": "npm run lint:lwc",
         "lint:lwc": "eslint force-app/main/default/lwc",
