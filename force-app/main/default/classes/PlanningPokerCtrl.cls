@@ -31,7 +31,7 @@ public without sharing class PlanningPokerCtrl {
     public static GameSettings getGameSettings(String gameId) {
         GameSettings gs;
         Game__c game = [
-            SELECT Id, Name, Show_Timer__c, Timer_Duration__c, Config__c
+            SELECT Id, Name, Show_Timer__c, Timer_Duration__c, Config__c, Question_Offset__c
             FROM Game__c
             WHERE Id = :gameId
         ];
@@ -169,22 +169,25 @@ public without sharing class PlanningPokerCtrl {
     }
 
     @AuraEnabled
-    public static void updateGameCurrentStory(String gameId, String storyId) {
+    public static void updateGameCurrentStory(String gameId, String storyId, Integer offset) {
         Game__c game = [
-            SELECT Id, Current_Story_ID__c, Timer_Duration__c
+            SELECT Id, Current_Story_ID__c, Timer_Duration__c, Question_Offset__c
             FROM Game__c
             WHERE Id = :gameId
         ];
         if (storyId != game.Current_Story_ID__c) {
+            game.Question_Offset__c = offset;
+            
             game.Current_Story_ID__c = storyId;
-           
+
             if(game.Timer_Duration__c != null){
                 Long milliseconds = Datetime.now().getTime();
                 Integer timerDuration = Integer.valueOf(game.Timer_Duration__c);
                 milliseconds = milliseconds + (timerDuration * 1000);
                 game.Timer_Timestamp__c = String.valueOf(milliseconds);
-                update game;
             }
+
+            update game;
             
             PlanningPokerEventUtil.fireStoryChangeEvent(gameId, storyId);
         }

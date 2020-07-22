@@ -29,6 +29,7 @@ export default class BacklogItemsForReview extends LightningElement {
     currentItem;
     error;
     subscription = null;
+    showSpinner = true;
 
     noDataSvgUrl = `${NODATA_SVG}#noDataErrorIllustration`;
 
@@ -44,7 +45,11 @@ export default class BacklogItemsForReview extends LightningElement {
     messageContext;
 
     pageTokenToRetrieve = 0;
+    pageSize;
     nextPageToken;
+
+    isOffsetInProgress = false;
+    currentOffset = 0;
 
     gameSettings;
     listViewId;
@@ -57,23 +62,32 @@ export default class BacklogItemsForReview extends LightningElement {
     @wire(getListUi, {
         listViewId: '$listViewId',
         pageToken: '$pageTokenToRetrieve',
-        pageSize: 1,
+        pageSize: '$pageSize',
         optionalFields: '$fieldsToRetrieve'
     })
     processData({ data, error }) {
         if (data) {
-            this.updateCurrentQuestionOnScreen(data);
+            if(this.isOffsetInProgress){
+                this.isOffsetInProgress = false;
+                this.pageTokenToRetrieve = data.records.nextPageToken;
+                this.pageSize = 1;
+            } else {
+                this.updateCurrentQuestionOnScreen(data);
+            }
         } else if (error) {
             this.currentItem = undefined;
+            this.showSpinner = false;
             console.error(error);
         }
     }
 
     nextQuestion() {
         this.pageTokenToRetrieve = this.nextPageToken;
+        this.currentOffset++;
     }
 
     updateCurrentQuestionOnScreen(data) {
+        this.showSpinner = false;
         if (this.gameSettings) {
             this.nextPageToken = data.records.nextPageToken;
             let recordsFromListView = data.records.records;
@@ -102,7 +116,7 @@ export default class BacklogItemsForReview extends LightningElement {
             const payload = { recordId: storyId, state: 'storychange' };
             publish(this.messageContext, GameStateChange, payload);
 
-            updateGameCurrentStory({ gameId: this.gameId, storyId }).catch(
+            updateGameCurrentStory({ gameId: this.gameId, storyId, offset: this.currentOffset }).catch(
                 error => {
                     console.error(error);
                 }
@@ -169,6 +183,15 @@ export default class BacklogItemsForReview extends LightningElement {
         getGameSettings({ gameId: this.gameId })
             .then(result => {
                 this.gameSettings = result;
+
+                this.currentOffset = this.gameSettings.game.Question_Offset__c;
+                if(this.gameSettings.game.Question_Offset__c !== 0){
+                    this.pageSize = this.gameSettings.game.Question_Offset__c;
+                    this.isOffsetInProgress = true;
+                } else {
+                    this.pageSize = 1;
+                }
+
                 this.showTimer = this.gameSettings.game.Show_Timer__c;
                 if (this.showTimer === true) {
                     this.timerDuration = this.gameSettings.game.Timer_Duration__c;
