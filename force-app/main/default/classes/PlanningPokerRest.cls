@@ -148,8 +148,9 @@ global with sharing class PlanningPokerRest {
         PlanningPokerServicesResponse ppr = new PlanningPokerServicesResponse();
         RestRequest req = RestContext.request;
         RestResponse res = RestContext.response;
-        String data = RestContext.request.requestBody.toString();
         try {
+            String data = RestContext.request.requestBody.toString();
+
             String serviceName = req.requestURI.substring(
                 req.requestURI.lastIndexOf('/') + 1
             );
