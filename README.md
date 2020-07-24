@@ -150,7 +150,7 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 1. Create your own Card sets (if needed) by navigating to Custom Metadata Types
 1. Navigate to the Planning Poker Host App, and click on the Games tab.
 1. Create a new Game by entering a name and optional description
-1. On the Game detail, select the source of your user stories. If you don't have an existing object where you store the user stories, you can use the "Backlog Item" object is provided by this app.
+1. On the Game detail, select the source of your user stories. If you don't have an existing object where you store the user stories, you can use the "Backlog Item" object that is provided in this app.
 
 ### Hosting a game
 
