@@ -4,6 +4,8 @@
 
 # Planning Poker App built on Salesforce
 
+[![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Scratch%20Org/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Scratch+Org%22) [![codecov](https://codecov.io/gh/adityanaag3/planning-poker-salesforce/branch/master/graph/badge.svg)](https://codecov.io/gh/adityanaag3/planning-poker-salesforce)
+
 1. [About](#about)
 1. [Features](#features)
 1. [Technology Stack](#technology-stack)
@@ -148,7 +150,7 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 1. Create your own Card sets (if needed) by navigating to Custom Metadata Types
 1. Navigate to the Planning Poker Host App, and click on the Games tab.
 1. Create a new Game by entering a name and optional description
-1. On the Game detail, select the source of your user stories.
+1. On the Game detail, select the source of your user stories. If you don't have an existing object where you store the user stories, you can use the "Backlog Item" object is provided by this app.
 
 ### Hosting a game
 
@@ -179,8 +181,8 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 
 ## Roadmap
 
--   Preserve the current question when host refreshes their page
 -   Ability to install app using Unlocked Packages
+-   Additional LWC Tests
 
 ## Building and contributing
 
