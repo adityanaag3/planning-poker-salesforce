@@ -1,0 +1,22 @@
+[
+    {
+        "Id": "00000",
+        "Name": "Test Game 1",
+        "Stage__c": "Not Started"
+    },
+    {
+        "Id": "00001",
+        "Name": "Test Game 2",
+        "Stage__c": "In Progress"
+    },
+    {
+        "Id": "00002",
+        "Name": "Test Game 3",
+        "Stage__c": "In Progress"
+    },
+    {
+        "Id": "00003",
+        "Name": "Test Game 4",
+        "Stage__c": "Not Started"
+    }
+]
