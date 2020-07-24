@@ -10,12 +10,12 @@
     </customMetadataTypeAccesses>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Content_Backlog_Item__c.Consensus__c</field>
+        <field>Backlog_Item__c.Consensus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Content_Backlog_Item__c.Notes__c</field>
+        <field>Backlog_Item__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -76,7 +76,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>Content_Backlog_Item__c</object>
+        <object>Backlog_Item__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

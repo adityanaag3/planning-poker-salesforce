@@ -44,7 +44,7 @@ public class PlanningPokerGameSettingsTest {
         system.assertEquals('User_Story__c', gs.nameField);
         system.assertEquals('Notes__c', gs.descriptionField);
         system.assertEquals('Consensus__c', gs.consensusField);
-        system.assertEquals('Content_Backlog_Item__c', gs.objectApiName);
+        system.assertEquals('Backlog_Item__c', gs.objectApiName);
         system.assertEquals(cs.Id, gs.cardSet);
         system.assertEquals(g.Show_Timer__c, gs.game.Show_Timer__c);
         system.assertEquals(g.Timer_Duration__c, gs.game.Timer_Duration__c);

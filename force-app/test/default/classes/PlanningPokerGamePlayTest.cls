@@ -95,9 +95,9 @@ public class PlanningPokerGamePlayTest {
         b = PlanningPokerCtrl.getCurrentStory(g2.Id);
         system.assertEquals(null, b);
 
-        Content_Backlog_Item__c cbi = [
+        Backlog_Item__c cbi = [
             SELECT Id, User_Story__c, Notes__c
-            FROM Content_Backlog_Item__c
+            FROM Backlog_Item__c
             LIMIT 1
         ];
 

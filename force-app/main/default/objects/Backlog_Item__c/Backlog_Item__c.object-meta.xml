@@ -153,13 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Content Backlog Item</label>
+    <label>Backlog Item</label>
     <nameField>
         <displayFormat>Backlog-{0000}</displayFormat>
-        <label>Content Backlog Item ID</label>
+        <label>Backlog Item ID</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Content Backlog Items</pluralLabel>
+    <pluralLabel>Backlog Items</pluralLabel>
     <searchLayouts />
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

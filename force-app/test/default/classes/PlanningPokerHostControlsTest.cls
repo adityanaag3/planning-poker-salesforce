@@ -13,11 +13,7 @@ public class PlanningPokerHostControlsTest {
 
     @isTest
     static void testResetCards() {
-        Content_Backlog_Item__c cbi = [
-            SELECT Id
-            FROM Content_Backlog_Item__c
-            LIMIT 1
-        ];
+        Backlog_Item__c cbi = [SELECT Id FROM Backlog_Item__c LIMIT 1];
 
         Game__c game = [
             SELECT Id, Timer_Timestamp__c
@@ -63,9 +59,9 @@ public class PlanningPokerHostControlsTest {
 
     @isTest
     static void testSaveConsensus() {
-        Content_Backlog_Item__c cbi = [
+        Backlog_Item__c cbi = [
             SELECT Id, Consensus__c
-            FROM Content_Backlog_Item__c
+            FROM Backlog_Item__c
             LIMIT 1
         ];
         system.assertEquals(null, cbi.Consensus__c);
@@ -73,13 +69,13 @@ public class PlanningPokerHostControlsTest {
         Test.startTest();
         Boolean isSuccess = PlanningPokerCtrl.saveConsensus(
             cbi.Id,
-            'Content_Backlog_Item__c',
+            'Backlog_Item__c',
             'Consensus__c',
             '2'
         );
         system.assert(isSuccess);
 
-        cbi = [SELECT Id, Consensus__c FROM Content_Backlog_Item__c LIMIT 1];
+        cbi = [SELECT Id, Consensus__c FROM Backlog_Item__c LIMIT 1];
         system.assertEquals('2', cbi.Consensus__c);
 
         isSuccess = PlanningPokerCtrl.saveConsensus(

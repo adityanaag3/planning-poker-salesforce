@@ -135,11 +135,7 @@ public class PlanningPokerRestTest {
             WHERE Game__c = :game.Id
             LIMIT 1
         ];
-        Content_Backlog_Item__c cbi = [
-            SELECT Id
-            FROM Content_Backlog_Item__c
-            LIMIT 1
-        ];
+        Backlog_Item__c cbi = [SELECT Id FROM Backlog_Item__c LIMIT 1];
         PlanningPokerCtrl.captureVote(cbi.Id, '0', player.Id, game.Id);
 
         Test.startTest();
@@ -192,9 +188,9 @@ public class PlanningPokerRestTest {
     @isTest
     static void testGetCurrentUnvotedItem() {
         Game__c game = [SELECT Id FROM Game__c WHERE Name = 'Test 2'];
-        Content_Backlog_Item__c cbi = [
+        Backlog_Item__c cbi = [
             SELECT Id, User_Story__c, Notes__c
-            FROM Content_Backlog_Item__c
+            FROM Backlog_Item__c
             LIMIT 1
         ];
         game.Current_Story_ID__c = cbi.Id;
@@ -373,11 +369,7 @@ public class PlanningPokerRestTest {
         player.Game__c = game.Id;
         insert player;
 
-        Content_Backlog_Item__c cbi = [
-            SELECT Id
-            FROM Content_Backlog_Item__c
-            LIMIT 1
-        ];
+        Backlog_Item__c cbi = [SELECT Id FROM Backlog_Item__c LIMIT 1];
 
         Test.startTest();
 

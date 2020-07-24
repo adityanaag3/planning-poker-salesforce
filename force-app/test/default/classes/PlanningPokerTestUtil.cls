@@ -22,7 +22,7 @@ public class PlanningPokerTestUtil {
         g.Config__c =
             '{"cardSet":"' +
             cs.Id +
-            '","object":"Content_Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
+            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
         games.add(g);
 
         g = new Game__c();
@@ -37,19 +37,19 @@ public class PlanningPokerTestUtil {
         g.Config__c =
             '{"cardSet":"' +
             cs.Id +
-            '","object":"Content_Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
+            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
         games.add(g);
 
         insert games;
 
-        List<Content_Backlog_Item__c> backlogItems = new List<Content_Backlog_Item__c>();
+        List<Backlog_Item__c> backlogItems = new List<Backlog_Item__c>();
 
-        Content_Backlog_Item__c bi = new Content_Backlog_Item__c();
+        Backlog_Item__c bi = new Backlog_Item__c();
         bi.User_Story__c = 'b1';
         bi.Notes__c = 'n1';
         backlogItems.add(bi);
 
-        bi = new Content_Backlog_Item__c();
+        bi = new Backlog_Item__c();
         bi.User_Story__c = 'b2';
         bi.Notes__c = 'n2';
         backlogItems.add(bi);

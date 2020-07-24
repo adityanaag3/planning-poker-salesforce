@@ -14,11 +14,7 @@ public class PlanningPokerPlayerResponseTest {
             WHERE Game__c = :game.Id
             LIMIT 1
         ];
-        Content_Backlog_Item__c cbi = [
-            SELECT Id
-            FROM Content_Backlog_Item__c
-            LIMIT 1
-        ];
+        Backlog_Item__c cbi = [SELECT Id FROM Backlog_Item__c LIMIT 1];
 
         List<Player_Response__c> responses = [
             SELECT Id
@@ -70,11 +66,7 @@ public class PlanningPokerPlayerResponseTest {
         player.Game__c = game.Id;
         insert player;
 
-        Content_Backlog_Item__c cbi = [
-            SELECT Id
-            FROM Content_Backlog_Item__c
-            LIMIT 1
-        ];
+        Backlog_Item__c cbi = [SELECT Id FROM Backlog_Item__c LIMIT 1];
         PlanningPokerCtrl.captureVote(cbi.Id, '2', player.Id, game.Id);
 
         Test.startTest();
