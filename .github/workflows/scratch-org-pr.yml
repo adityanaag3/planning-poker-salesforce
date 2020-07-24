@@ -1,5 +1,5 @@
 # Unique name for this workflow
-name: Scratch Org
+name: Scratch Org PR
 
 # Definition when the workflow should run
 on:
