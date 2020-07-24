@@ -26,6 +26,8 @@ export default class HostControls extends LightningElement {
     estimateOptions;
     gameSettings;
 
+    versionNumber = '1.0';
+
     @wire(MessageContext)
     messageContext;
 
