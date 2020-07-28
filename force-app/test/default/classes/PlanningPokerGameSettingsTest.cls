@@ -9,6 +9,10 @@ public class PlanningPokerGameSettingsTest {
 
     @IsTest
     static void checkFieldsOnGameSettingsForm() {
+        if (namespace != null && namespace != '' && !namespace.endsWith('__')) {
+            namespace = namespace + '__';
+        }
+
         Test.startTest();
 
         List<Card_Set__mdt> cardSets = PlanningPokerCtrl.getAvailableCardSets();
