@@ -1,1 +1,1 @@
-PlanningPokerPostInstallScript.insertPushTopics('');
+PlanningPokerPostInstallScript.insertPushTopics('planningpokersf');
