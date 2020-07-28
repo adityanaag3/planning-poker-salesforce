@@ -18,7 +18,7 @@ sfdx force:org:delete -p -u $ORG_ALIAS &> /dev/null
 echo ""
 
 echo "Creating scratch org..." && \
-sfdx force:org:create -s -f config/project-scratch-def.json -a $ORG_ALIAS -d 30 && \
+sfdx force:org:create -s -f config/project-scratch-def.json -a $ORG_ALIAS -d 7 && \
 echo "" && \
 
 echo "Pushing source..." && \

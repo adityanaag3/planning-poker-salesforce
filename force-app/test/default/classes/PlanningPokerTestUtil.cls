@@ -1,4 +1,6 @@
 public class PlanningPokerTestUtil {
+    public static String namespace = '';
+
     public static void createTestData() {
         List<Game__c> games = new List<Game__c>();
 
