@@ -6,7 +6,7 @@
             "package": "PlanningPokerSF",
             "postInstallScript": "PlanningPokerPostInstallScript",
             "uninstallScript": "PlanningPokerUninstallScript",
-            "versionName": "ver 0.1",
+            "versionName": "First Version",
             "versionNumber": "0.1.0.NEXT"
         }
     ],

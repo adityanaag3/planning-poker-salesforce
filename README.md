@@ -4,7 +4,7 @@
 
 # Planning Poker App built on Salesforce
 
-[![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Scratch%20Org/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Scratch+Org%22) [![codecov](https://codecov.io/gh/adityanaag3/planning-poker-salesforce/branch/master/graph/badge.svg)](https://codecov.io/gh/adityanaag3/planning-poker-salesforce)
+[![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Scratch%20Org/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Scratch+Org%22) [![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Packaging/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Packaging%22) [![codecov](https://codecov.io/gh/adityanaag3/planning-poker-salesforce/branch/master/graph/badge.svg)](https://codecov.io/gh/adityanaag3/planning-poker-salesforce)
 
 1. [About](#about)
 1. [Features](#features)
@@ -56,7 +56,24 @@ You can optionally also install the guest version of the player app on Heroku to
 
 #### Using a package
 
-Coming Soon!
+<ol>
+    <li>
+        Click the button below to install on Developer Edition, Trailhead Playgroud or Production orgs<br/>
+            <p>
+                <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=000000000000000000">
+                    <img src="/assets/install-prod.png" alt="Install in Production">
+                </a>
+            </p>
+    </li>
+    <li>
+        Click the button below to install on Sandboxes or Scratch Orgs<br/>
+            <p>
+                <a href="https://test.salesforce.com/packaging/installPackage.apexp?p0=000000000000000000">
+                    <img src="/assets/install-sb.png" alt="Install in Sandbox">
+                </a>
+            </p>
+    </li>
+</ol>
 
 #### Using SFDX Commands
 
@@ -181,7 +198,6 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 
 ## Roadmap
 
--   Ability to install app using Unlocked Packages
 -   Additional LWC Tests
 
 ## Building and contributing
