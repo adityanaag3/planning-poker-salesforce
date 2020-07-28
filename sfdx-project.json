@@ -3,9 +3,7 @@
         {
             "path": "force-app",
             "default": true,
-            "package": "Planning Poker Salesforce",
-            "postInstallScript": "PlanningPokerPostInstallScript",
-            "uninstallScript": "PlanningPokerUninstallScript",
+            "package": "PlanningPokerSF",
             "versionName": "First Version",
             "versionNumber": "0.1.0.NEXT"
         }
@@ -14,6 +12,6 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "49.0",
     "packageAliases": {
-        "Planning Poker Salesforce": "0Ho0o000000TNC3CAO"
+        "PlanningPokerSF": "0Ho0o000000TNByCAO"
     }
 }
