@@ -5,12 +5,16 @@ public without sharing class PlanningPokerCtrl {
 
     @AuraEnabled
     public static String getNameSpace() {
-        return [
+        String namespace = [
             SELECT NameSpacePrefix
             FROM ApexClass
             WHERE Name = 'PlanningPokerCtrl'
         ]
         .NameSpacePrefix;
+        if (namespace == null) {
+            namespace = '';
+        }
+        return namespace;
     }
 
     @AuraEnabled(cacheable=true)
