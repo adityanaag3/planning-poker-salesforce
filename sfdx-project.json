@@ -2,10 +2,18 @@
     "packageDirectories": [
         {
             "path": "force-app",
-            "default": true
+            "default": true,
+            "package": "PlanningPokerSF",
+            "postInstallScript": "PlanningPokerPostInstallScript",
+            "uninstallScript": "PlanningPokerUninstallScript",
+            "versionName": "ver 0.1",
+            "versionNumber": "0.1.0.NEXT"
         }
     ],
-    "namespace": "",
+    "namespace": "planningpokersf",
     "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "49.0"
+    "sourceApiVersion": "49.0",
+    "packageAliases": {
+        "PlanningPokerSF": "0Ho0o000000TNByCAO"
+    }
 }
