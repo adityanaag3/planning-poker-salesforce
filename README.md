@@ -4,7 +4,7 @@
 
 # Planning Poker App built on Salesforce
 
-[![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Scratch%20Org/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Scratch+Org%22) [![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Packaging/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Packaging%22) [![codecov](https://codecov.io/gh/adityanaag3/planning-poker-salesforce/branch/master/graph/badge.svg)](https://codecov.io/gh/adityanaag3/planning-poker-salesforce)
+[![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Scratch%20Org/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Scratch+Org%22+branch%3Amaster) [![Github Workflow](https://github.com/adityanaag3/planning-poker-salesforce/workflows/Packaging/badge.svg?branch=master)](https://github.com/adityanaag3/planning-poker-salesforce/actions?query=workflow%3A%22Packaging%22) [![codecov](https://codecov.io/gh/adityanaag3/planning-poker-salesforce/branch/master/graph/badge.svg)](https://codecov.io/gh/adityanaag3/planning-poker-salesforce)
 
 1. [About](#about)
 1. [Features](#features)
