@@ -3,6 +3,20 @@ public without sharing class PlanningPokerCtrl {
      *  Methods for Game Settings
      */
 
+    @AuraEnabled
+    public static String getNameSpace() {
+        String namespace = [
+            SELECT NameSpacePrefix
+            FROM ApexClass
+            WHERE Name = 'PlanningPokerCtrl'
+        ]
+        .NameSpacePrefix;
+        if (namespace == null) {
+            namespace = '';
+        }
+        return namespace;
+    }
+
     @AuraEnabled(cacheable=true)
     public static List<Card_Set__mdt> getAvailableCardSets() {
         return [SELECT Id, MasterLabel FROM Card_Set__mdt];
