@@ -8,11 +8,11 @@
             "versionNumber": "0.1.0.NEXT"
         }
     ],
-    "namespace": "planningpokersf",
+    "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "49.0",
     "packageAliases": {
         "PlanningPokerSF": "0Ho0o000000TNByCAO",
-        "PlanningPokerSF@0.1.0-1": "04t0o000002uMjkAAE"
+        "PlanningPokerSF@0.1.0-5": "04t0o000002uMk4AAE"
     }
 }
