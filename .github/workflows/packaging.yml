@@ -93,7 +93,7 @@ jobs:
             - name: Update package install link in readme
               run: |
                   packageVersionId="${{ steps.create-package-version.outputs.packageVersionId }}"
-                  packageLinkRegex="?p0=[a-zA-Z0-9]{18}"
+                  packageLinkRegex="\?p0=[a-zA-Z0-9]{18}"
                   newPackageLink="?p0=${packageVersionId}"
                   sed -E -i "s,${packageLinkRegex},${newPackageLink},g" README.md
 
