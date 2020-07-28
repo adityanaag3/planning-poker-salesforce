@@ -1,5 +1,7 @@
 @isTest
 public class PlanningPokerGameSettingsTest {
+    static String namespace = PlanningPokerTestUtil.namespace;
+
     @TestSetup
     static void createData() {
         PlanningPokerTestUtil.createTestData();
@@ -13,10 +15,10 @@ public class PlanningPokerGameSettingsTest {
         System.assertEquals(2, cardSets.size());
 
         List<String> customObjects = PlanningPokerCtrl.getCustomObjects();
-        System.assert(customObjects.contains('Game__c'));
+        System.assert(customObjects.contains(namespace + 'Game__c'));
 
         List<ListView> views = PlanningPokerCtrl.getListViewsOfObject(
-            'Game__c'
+            namespace + 'Game__c'
         );
         System.assert(views.size() > 0);
 

@@ -1,5 +1,7 @@
 @isTest
 public class PlanningPokerHostControlsTest {
+    static String namespace = PlanningPokerTestUtil.namespace;
+
     @TestSetup
     static void createData() {
         PlanningPokerTestUtil.createTestData();
@@ -69,8 +71,8 @@ public class PlanningPokerHostControlsTest {
         Test.startTest();
         Boolean isSuccess = PlanningPokerCtrl.saveConsensus(
             cbi.Id,
-            'Backlog_Item__c',
-            'Consensus__c',
+            namespace + 'Backlog_Item__c',
+            namespace + 'Consensus__c',
             '2'
         );
         system.assert(isSuccess);

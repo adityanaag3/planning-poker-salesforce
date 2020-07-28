@@ -10,7 +10,7 @@
             "versionNumber": "0.1.0.NEXT"
         }
     ],
-    "namespace": "planningpokersf",
+    "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "49.0",
     "packageAliases": {

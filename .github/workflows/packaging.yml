@@ -49,6 +49,11 @@ jobs:
             - name: Remove auth file
               run: rm -f ./DEV_ED_SFDX_URL.txt
 
+            # Add namespace to project config
+            - name: Add namespace to project config
+              run: |
+                  sed -i 's,"namespace": "","namespace": "planningpokersf",' sfdx-project.json
+
             # Update release number in sfdx-project.json
             - name: Update Package number in sfdx-project.json
               run: |
@@ -95,6 +100,11 @@ jobs:
             # Update sfdx-project.json and README to use only latest package version
             - name: 'Update sfdx-project.json and README'
               uses: muenzpraeger/github-action-sfdx-packaging-updater@master
+
+            # Remove namespace from project config
+            - name: Remove namespace from project config
+              run: |
+                  sed -i 's,"namespace": "planningpokersf","namespace": "",' sfdx-project.json
 
             # Commit project config and readme
             - name: Commit project config and readme
