@@ -106,18 +106,33 @@ jobs:
               run: |
                   sed -i 's,"namespace": "planningpokersf","namespace": "",' sfdx-project.json
 
-            # Commit project config and readme
-            - name: Commit project config and readme
-              run: |
-                  versionNumber="${{ github.event.release.tag_name }}"
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "GitHub Action"
-                  git add sfdx-project.json
-                  git add README.md
-                  git commit -m "Released Version ${versionNumber}"
+            # The main branch is protected, so we have to take a sequea for updating the README through a new PR
+            - name: 'Create new branch and pull request for updated package version ID'
+              uses: peter-evans/create-pull-request@v2
+              with:
+                  title: 'Added new package version ID'
+                  commit-message: 'Added new package version ID ${{ steps.create-package-version.outputs.packageVersionId }}'
+                  branch: 'auto/package-version-update'
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
-            # Push changes in git
-            - name: Push changes in git
-              uses: ad-m/github-push-action@master
+            # Approve pull request
+            - name: 'Approve Pull Request'
+              uses: juliangruber/approve-pull-request-action@v1
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  number: ${{ env.PULL_REQUEST_NUMBER }}
+
+            # Merge pull request
+            - name: 'Merge pull request'
+              uses: juliangruber/merge-pull-request-action@v1
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  number: ${{ env.PULL_REQUEST_NUMBER }}
+                  method: squash
+
+            # Delete pull request, for GitHub Actions initiated PRs the auto-delete of GitHub doesn't work
+            - name: 'Delete pull request branch'
+              uses: dawidd6/action-delete-branch@v2
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
+                  numbers: ${{ env.PULL_REQUEST_NUMBER }}

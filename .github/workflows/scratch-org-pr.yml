@@ -5,6 +5,9 @@ name: Scratch Org PR
 on:
     pull_request:
         types: [opened, synchronize, reopened]
+    paths-ignore:
+        - 'sfdx-project.json'
+        - 'README.md'
 
 # Jobs to be executed
 jobs:
