@@ -8,6 +8,7 @@ package.xml
 **objectTranslations
 **profiles
 **settings
+**connectedApps
 
 # LWC configuration files
 **/jsconfig.json
