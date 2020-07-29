@@ -63,13 +63,13 @@ jobs:
                   versionName="${{ github.event.release.name }}"
 
                   versionNameRegex="\"versionName\": \".*\""
-                  versionNumberRegex="\"versionNumber\": \"([0-9]+)\.([0-9]+)\.([0-9]+)\.NEXT\""
+                  versionNumberRegex="\"versionNumber\": \"[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.NEXT\""
 
                   newVersionName="\"versionName\": \"${versionName}\""
                   newVersionNumber="\"versionNumber\": \"${versionNumber/v/}.NEXT\""
 
-                  sed -i "s,versionNameRegex,newVersionName," sfdx-project.json
-                  sed -i "s,versionNumberRegex,newVersionNumber," sfdx-project.json
+                  sed -i -E "s,${versionNameRegex},${newVersionName}," sfdx-project.json
+                  sed -i -E "s,${versionNumberRegex},${newVersionNumber}," sfdx-project.json
 
             # Create package version and extract its id
             - name: Create package version
