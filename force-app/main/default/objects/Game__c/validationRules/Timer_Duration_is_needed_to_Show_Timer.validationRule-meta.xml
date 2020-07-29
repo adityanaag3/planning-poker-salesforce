@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Timer_Duration_is_needed_to_Show_Timer</fullName>
+    <active>true</active>
+    <errorConditionFormula
+    >AND(Show_Timer__c, ISBLANK( Timer_Duration__c ))</errorConditionFormula>
+    <errorDisplayField>Timer_Duration__c</errorDisplayField>
+    <errorMessage>Please enter Timer Duration</errorMessage>
+</ValidationRule>
