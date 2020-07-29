@@ -73,6 +73,15 @@ You can optionally also install the guest version of the player app on Heroku to
                 </a>
             </p>
     </li>
+    <li>Once the installation is successful, Open the Developer Console and go to Debug -> Execute Anonymous Window. </li>
+    <li>Paste the following code, and click <b>Execute</b>
+        <pre>
+            String namespace = PlanningPokerCtrl.getNameSpace(true);
+            PlanningPokerPostInstallScript.insertPushTopics(namespace);
+        </pre>
+    </li>
+    <li>To make a Salesforce user the host of a game, assign the <code>Planning Poker Host</code> permission set to them.</li>
+    <li>Assign the <code>Planning Poker Player</code> permission set to any users who want to participate as players.</li>
 </ol>
 
 #### Using SFDX Commands
@@ -100,7 +109,7 @@ Tip: you can also download the files from the website if you don't want to insta
 Once the script completes, it will open your new scratch org in a browser tab. If you close the tab or get disconnected, run this command to reopen the org 
 <pre>sfdx force:org:open -u planningpoker</pre>
     </li>
-    <li>To make a Salesforce user the host of a game, assign the <code>Planning Poker Host</code> permission set to them.</li>
+    <li>To make a Salesforce user the host of a game, assign the <code>Planning Poker Host</code> permission set to them. The above installations script automatically assigns this permission set to the user who runs the script.</li>
     <li>Assign the <code>Planning Poker Player</code> permission set to any users who want to participate as players.</li>
 </ol>
 
@@ -112,15 +121,17 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
     <li>Create a self signed certificate using the command
     <pre>openssl req  -nodes -new -x509  -keyout private.pem -out server.cert</pre>
     </li>
-    <li>Create a connected app in Salesforce.
+    <li>Create a Connected App in Salesforce with the below configuration
         <ol>
             <li>Select <b>Enable OAuth Settings</b></li>
+            <li>Use <code>http://localhost:3001</code> as the Callback URL</li>
             <li>Select <b>Use digital signatures</b></li>
             <li>Upload the Certificate generated in the previous step</li>
-            <li>Use <code>http://localhost:3001</code> as the Callback URL</li>
+            <li>Select <code>api</code> and <code>refresh_token, offline_access</code> in OAuth Scopes</li>
         </ol>
     </li>
-    <li>Edit the connected app policy to <b>Admin approved users are pre authorized</b>
+    <li>Click on <b>Manage</b> and then click <b>Edit Policies</b></li>
+    <li>Select <b>Admin approved users are pre authorized</b> in <b>Permitted Users</b> and <b>Save</b></li>
     <li>Select <b>Planning Poker Player</b> in the list of permission sets for the policy</li>
     <li>Deploy to Heroku using the button below<br/>
         <p>
@@ -142,7 +153,7 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
         </tr>
         <tr>
           <td>SF_USERNAME</td>
-          <td>Username of the integration user who has been assigned the "Planning Poker Player" permission set.</td>
+          <td>Username of the integration user who has been assigned the <b>Planning Poker Player</b> permission set.</td>
         </tr>
         <tr>
           <td>SF_LOGIN_URL</td>
@@ -154,9 +165,11 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
           <td>PRIVATE_KEY</td>
           <td>Contents of the private.pem file generated from the certificate creation step</td>
         </tr>
+        <td>SF_NAMESPACE</td>
+          <td>Use <code>planningpokersf</code> if you have installed the host app using the packages listed <a href="https://github.com/adityanaag3/planning-poker-salesforce#using-a-package">here</a>. Else, use the namespace from <a href="https://github.com/adityanaag3/planning-poker-salesforce/blob/master/sfdx-project.json">sfdx-project.json</a> file.</td>
       </table>
     </li>
-    <li>Update the <code>Heroku App URL</code> record in the Custom Metadata Type <code>Game Settings</code> with the Heroku App URL generated in the previous step.</li>
+    <li>Update the <code>Heroku App URL</code> record in the Custom Metadata Type <code>Game Settings</code> with the Heroku App's URL generated in the previous step.</li>
     <li>Optionally checkout the source code for the app <a href="https://github.com/adityanaag3/planning-poker-heroku">here</a> to make modifications or test locally.</li>
 </ol>
 
@@ -164,10 +177,15 @@ Guests are players without Salesforce Licenses. Here are a few additional steps 
 
 ### Creating a game
 
-1. Create your own Card sets (if needed) by navigating to Custom Metadata Types
+1. Create your own Card sets (if needed) by creating new records in the <b>Card Set</b> custom metadata type.
+1. Enter the card values separated by a comma. Optionally you can add <code>?</code> and <code>Pass</code>.
 1. Navigate to the Planning Poker Host App, and click on the Games tab.
 1. Create a new Game by entering a name and optional description
-1. On the Game detail, select the source of your user stories. If you don't have an existing object where you store the user stories, you can use the "Backlog Item" object that is provided in this app.
+1. In the "Game Data Sources" section on the Game detail page, select the source of your user stories. If you don't have an existing object where you store the user stories, you can use the "Backlog Item" object that is provided in this app. Here are the values you need to enter if you choose the "Backlog Item" object
+    1. Name Field: User Story
+    1. Description Field: Notes
+    1. Consensus Stored In? : Consensus
+    1. List View: All
 
 ### Hosting a game
 
