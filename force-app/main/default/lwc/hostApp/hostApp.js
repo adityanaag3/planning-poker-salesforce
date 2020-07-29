@@ -3,13 +3,28 @@ import { LightningElement, wire } from 'lwc';
 import { publish, MessageContext } from 'lightning/messageService';
 import GameStateChange from '@salesforce/messageChannel/Game_State_Change__c';
 import changeGamePhase from '@salesforce/apex/PlanningPokerCtrl.changeGamePhase';
+import getNameSpace from '@salesforce/apex/PlanningPokerCtrl.getNameSpace';
 
 export default class HostApp extends LightningElement {
     gameId;
     playerId;
 
+    namespace;
+
     @wire(MessageContext)
     messageContext;
+
+    @wire(getNameSpace, { withUnderscore: true })
+    namespaceFn({ error, data }) {
+        if (error) {
+            this.namespace = '';
+        } else if (data) {
+            this.namespace = data;
+            if (!this.namespace) {
+                this.namespace = '';
+            }
+        }
+    }
 
     get isGameSelectionPhase() {
         return this.gameId ? false : true;

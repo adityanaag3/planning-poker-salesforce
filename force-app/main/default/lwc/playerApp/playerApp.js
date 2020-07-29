@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { LightningElement } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import getGameByGameKey from '@salesforce/apex/PlanningPokerCtrl.getGameByGameKey';
 import insertPlayer from '@salesforce/apex/PlanningPokerCtrl.insertPlayer';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getNameSpace from '@salesforce/apex/PlanningPokerCtrl.getNameSpace';
 
 import * as empApi from 'lightning/empApi';
 
@@ -37,6 +38,20 @@ export default class PlayerApp extends LightningElement {
     gameId;
     playerId;
 
+    namespace;
+
+    @wire(getNameSpace, { withUnderscore: true })
+    namespaceFn({ error, data }) {
+        if (error) {
+            this.namespace = '';
+        } else if (data) {
+            this.namespace = data;
+            if (!this.namespace) {
+                this.namespace = '';
+            }
+        }
+    }
+
     connectedCallback() {
         this.initEmpApi();
     }
@@ -70,21 +85,21 @@ export default class PlayerApp extends LightningElement {
     handleGameStateChange(message) {
         let data = message.data;
         let payload = data.payload;
-        if (payload.GameID__c === this.gameId) {
-            if (payload.Type__c === 'GamePhaseChange') {
-                this.gameStatus = payload.Data__c;
+        if (payload[`${this.namespace}GameID__c`] === this.gameId) {
+            if (payload[`${this.namespace}Type__c`] === 'GamePhaseChange') {
+                this.gameStatus = payload[`${this.namespace}Data__c`];
                 if (this.gameStatus === 'Completed') {
                     this.gameId = null;
                 }
-            } else if (payload.Type__c === 'StoryChange') {
+            } else if (payload[`${this.namespace}Type__c`] === 'StoryChange') {
                 this.template
                     .querySelector('c-player-backlog-items')
                     .getUnvotedItem();
-            } else if (payload.Type__c === 'CardFlip') {
+            } else if (payload[`${this.namespace}Type__c`] === 'CardFlip') {
                 this.template
                     .querySelector('c-player-backlog-items')
-                    .flipCards(payload.Data__c);
-            } else if (payload.Type__c === 'ResetCards') {
+                    .flipCards(payload[`${this.namespace}Data__c`]);
+            } else if (payload[`${this.namespace}Type__c`] === 'ResetCards') {
                 this.template
                     .querySelector('c-player-backlog-items')
                     .resetCards();
@@ -99,9 +114,10 @@ export default class PlayerApp extends LightningElement {
                 this.error = undefined;
                 if (result && result.Id) {
                     this.gameId = result.Id;
-                    this.gameStatus = result.Phase__c;
-                    this.showTimer = result.Show_Timer__c;
-                    this.timerDuration = result.Timer_Duration__c;
+                    this.gameStatus = result[`${this.namespace}Phase__c`];
+                    this.showTimer = result[`${this.namespace}Show_Timer__c`];
+                    this.timerDuration =
+                        result[`${this.namespace}Timer_Duration__c`];
                     insertPlayer({
                         gameId: this.gameId,
                         isSalesforcePlayer: true

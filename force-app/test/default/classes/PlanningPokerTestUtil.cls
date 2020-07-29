@@ -1,5 +1,5 @@
 public class PlanningPokerTestUtil {
-    public static String namespace = PlanningPokerCtrl.getNameSpace();
+    public static String namespace = PlanningPokerCtrl.getNameSpace(true);
 
     public static void createTestData() {
         List<Game__c> games = new List<Game__c>();

@@ -12,6 +12,7 @@ export default class PlayerList extends LightningElement {
 
     @api gameId;
     @api storyId;
+    @api namespace;
 
     @api cardsFlipped;
 
@@ -54,14 +55,19 @@ export default class PlayerList extends LightningElement {
     }
 
     handlePlayerCreationEvent(pushNotification) {
-        const { Game__c } = pushNotification.data.sobject;
-        if (this.gameId === Game__c) {
+        const gameIdFromNotification =
+            pushNotification.data.sobject[`${this.namespace}Game__c`];
+        if (this.gameId === gameIdFromNotification) {
             refreshApex(this.wiredPlayerResponses);
         }
     }
 
     refreshCards(pushNotification) {
-        const { Story_ID__c, Game__c } = pushNotification.data.sobject;
+        const Story_ID__c =
+            pushNotification.data.sobject[`${this.namespace}Story_ID__c`];
+        const Game__c =
+            pushNotification.data.sobject[`${this.namespace}Game__c`];
+
         if (
             (this.gameId === Game__c && this.storyId === Story_ID__c) ||
             pushNotification.data.event.type === 'deleted'

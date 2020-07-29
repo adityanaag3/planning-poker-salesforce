@@ -1,2 +1,2 @@
-String namespace = PlanningPokerCtrl.getNameSpace();
+String namespace = PlanningPokerCtrl.getNameSpace(true);
 PlanningPokerPostInstallScript.insertPushTopics(namespace);

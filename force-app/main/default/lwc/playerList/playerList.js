@@ -11,6 +11,7 @@ export default class PlayerList extends LightningElement {
     @track playerNames = [];
 
     @api gameId;
+    @api namespace;
 
     currentPlayerId;
 
@@ -52,7 +53,10 @@ export default class PlayerList extends LightningElement {
     }
 
     handlePlayerUpdate(pushNotification) {
-        const { Id, Name, Game__c } = pushNotification.data.sobject;
+        const { Id, Name } = pushNotification.data.sobject;
+        const Game__c =
+            pushNotification.data.sobject[`${this.namespace}Game__c`];
+
         let playerObj = { Id, Name };
         if (this.gameId === Game__c && !this.playerNames.includes(Name)) {
             this.playerNames.push(playerObj);

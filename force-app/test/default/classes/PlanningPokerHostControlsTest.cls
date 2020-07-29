@@ -68,10 +68,6 @@ public class PlanningPokerHostControlsTest {
         ];
         system.assertEquals(null, cbi.Consensus__c);
 
-        if (namespace != null && namespace != '' && !namespace.endsWith('__')) {
-            namespace = namespace + '__';
-        }
-
         Test.startTest();
         Boolean isSuccess = PlanningPokerCtrl.saveConsensus(
             cbi.Id,

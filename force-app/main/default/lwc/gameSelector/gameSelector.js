@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
 import getValidGames from '@salesforce/apex/PlanningPokerCtrl.getValidGames';
 import { refreshApex } from '@salesforce/apex';
 
@@ -7,6 +7,8 @@ export default class GameSelector extends LightningElement {
     validGames;
 
     selectedGame;
+
+    @api namespace;
 
     isLaunchDisabled = true;
 
@@ -24,7 +26,7 @@ export default class GameSelector extends LightningElement {
         if (this.validGames.data) {
             this.validGames.data.forEach((game) => {
                 if (game.Id === this.selectedGame) {
-                    selectedGamePhase = game.Phase__c;
+                    selectedGamePhase = game[`${this.namespace}Phase__c`];
                 }
             });
             const event = new CustomEvent('launch', {

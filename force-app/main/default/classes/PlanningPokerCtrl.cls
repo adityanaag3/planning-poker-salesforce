@@ -3,8 +3,8 @@ public without sharing class PlanningPokerCtrl {
      *  Methods for Game Settings
      */
 
-    @AuraEnabled
-    public static String getNameSpace() {
+    @AuraEnabled(cacheable=true)
+    public static String getNameSpace(Boolean withUnderscore) {
         String namespace = [
             SELECT NameSpacePrefix
             FROM ApexClass
@@ -14,7 +14,12 @@ public without sharing class PlanningPokerCtrl {
         if (namespace == null) {
             namespace = '';
         }
-        return namespace;
+
+        if (withUnderscore && namespace != '') {
+            return namespace + '__';
+        } else {
+            return namespace;
+        }
     }
 
     @AuraEnabled(cacheable=true)

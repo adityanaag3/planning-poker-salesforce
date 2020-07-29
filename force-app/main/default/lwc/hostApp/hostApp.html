@@ -6,6 +6,7 @@
                     <div class="slds-col slds-size_1-of-3">
                         <c-game-selector
                             onlaunch={launchGame}
+                            namespace={namespace}
                         ></c-game-selector>
                     </div>
                 </div>
@@ -14,6 +15,7 @@
                 <c-player-list
                     game-id={gameId}
                     onplaygame={startGamePlay}
+                    namespace={namespace}
                 ></c-player-list>
             </template>
             <template if:true={isGamePlayPhase}>
@@ -21,6 +23,7 @@
                     game-id={gameId}
                     player-id={playerId}
                     onendgame={handleGameEnd}
+                    namespace={namespace}
                 ></c-backlog-items-for-review>
             </template>
         </div>
