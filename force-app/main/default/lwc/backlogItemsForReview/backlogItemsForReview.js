@@ -165,6 +165,7 @@ export default class BacklogItemsForReview extends LightningElement {
             message.state === 'resetcards' &&
             message.recordId === this.gameId
         ) {
+            this.cardsFlipped = false;
             this.resetCards();
             this.resetTimer();
         }
