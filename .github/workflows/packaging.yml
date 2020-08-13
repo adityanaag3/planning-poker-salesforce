@@ -71,6 +71,17 @@ jobs:
                   sed -i -E "s,${versionNameRegex},${newVersionName}," sfdx-project.json
                   sed -i -E "s,${versionNumberRegex},${newVersionNumber}," sfdx-project.json
 
+            # Update release number in versionNumber.js
+            - name: Update Package number in versionNumber.js
+              run: |
+                  versionName="${{ github.event.release.name }}"
+
+                  versionNameRegex="VERSION_NUMBER = '.*';"
+                  newVersionName="VERSION_NUMBER = '${versionName}';"
+
+                  sed -i -E "s,${versionNameRegex},${newVersionName}," force-app/main/default/lwc/hostControls/versionNumber.js
+                  rm -f force-app/main/default/lwc/hostControls/versionNumber.js-E
+
             # Create package version and extract its id
             - name: Create package version
               id: create-package-version
@@ -113,6 +124,6 @@ jobs:
               uses: peter-evans/create-pull-request@v2
               with:
                   title: 'Added new package version ID'
-                  commit-message: 'Added new package version ID ${{ steps.create-package-version.outputs.packageVersionId }}'
+                  commit-message: 'Added new package version ID'
                   branch: 'auto/package-version-update'
                   token: ${{ secrets.GITHUB_TOKEN }}

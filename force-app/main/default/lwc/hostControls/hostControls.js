@@ -16,6 +16,8 @@ import saveConsensus from '@salesforce/apex/PlanningPokerCtrl.saveConsensus';
 import getGameSettings from '@salesforce/apex/PlanningPokerCtrl.getGameSettings';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+import { VERSION_NUMBER } from './versionNumber.js';
+
 export default class HostControls extends LightningElement {
     gameId;
     storyId;
@@ -26,7 +28,7 @@ export default class HostControls extends LightningElement {
     estimateOptions;
     gameSettings;
 
-    versionNumber = '1.0';
+    versionNumber = VERSION_NUMBER;
 
     @wire(MessageContext)
     messageContext;

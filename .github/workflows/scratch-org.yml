@@ -9,6 +9,7 @@ on:
         paths-ignore:
             - 'sfdx-project.json'
             - 'README.md'
+            - '**/versionNumber.js'
             - .github/**
 
 # Jobs to be executed
