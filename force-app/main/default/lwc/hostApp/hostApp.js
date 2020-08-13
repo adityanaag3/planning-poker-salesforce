@@ -9,7 +9,7 @@ export default class HostApp extends LightningElement {
     gameId;
     playerId;
 
-    namespace;
+    namespace = '';
 
     @wire(MessageContext)
     messageContext;
