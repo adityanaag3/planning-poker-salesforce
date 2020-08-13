@@ -148,6 +148,7 @@ export default class HostControls extends LightningElement {
             storyId: this.storyId,
             objectApiName: this.gameSettings.objectApiName,
             consensusField: this.gameSettings.consensusField,
+            consensusFieldType: this.gameSettings.consensusFieldType,
             consensusValue: consensus
         })
             .then(() => {

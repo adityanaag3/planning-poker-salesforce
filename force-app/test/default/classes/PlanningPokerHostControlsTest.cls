@@ -60,7 +60,7 @@ public class PlanningPokerHostControlsTest {
     }
 
     @isTest
-    static void testSaveConsensus() {
+    static void testSaveConsensusString() {
         Backlog_Item__c cbi = [
             SELECT Id, Consensus__c
             FROM Backlog_Item__c
@@ -73,6 +73,7 @@ public class PlanningPokerHostControlsTest {
             cbi.Id,
             namespace + 'Backlog_Item__c',
             namespace + 'Consensus__c',
+            'String',
             '2'
         );
         system.assert(isSuccess);
@@ -84,6 +85,7 @@ public class PlanningPokerHostControlsTest {
             cbi.Id,
             'Some_Object__c',
             'Some_Field__c',
+            'String',
             '2'
         );
         system.assert(!isSuccess);

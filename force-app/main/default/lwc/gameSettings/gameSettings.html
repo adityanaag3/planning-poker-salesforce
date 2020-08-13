@@ -175,17 +175,17 @@
                                     >
                                         <option value=""></option>
                                         <template
-                                            if:true={textFieldsFromObject}
+                                            if:true={consensusEligibleFieldsFromObject}
                                         >
                                             <template
-                                                for:each={textFieldsFromObject}
-                                                for:item="textFieldFromObject"
+                                                for:each={consensusEligibleFieldsFromObject}
+                                                for:item="consensusEligibleField"
                                             >
                                                 <option
-                                                    key={textFieldFromObject.apiName}
-                                                    value={textFieldFromObject.apiName}
+                                                    key={consensusEligibleField.apiName}
+                                                    value={consensusEligibleField.apiName}
                                                 >
-                                                    {textFieldFromObject.label}</option
+                                                    {consensusEligibleField.label}</option
                                                 >
                                             </template>
                                         </template>

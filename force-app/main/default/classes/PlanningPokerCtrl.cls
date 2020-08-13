@@ -69,6 +69,7 @@ public without sharing class PlanningPokerCtrl {
                     configMap.get('description') != null &&
                     configMap.get('listView') != null &&
                     configMap.get('consensus') != null &&
+                    configMap.get('consensusFieldType') != null &&
                     configMap.get('object') != null
                 ) {
                     gs = new GameSettings();
@@ -77,6 +78,9 @@ public without sharing class PlanningPokerCtrl {
                     gs.descriptionField = (String) configMap.get('description');
                     gs.listViewId = (String) configMap.get('listView');
                     gs.consensusField = (String) configMap.get('consensus');
+                    gs.consensusFieldType = (String) configMap.get(
+                        'consensusFieldType'
+                    );
                     gs.objectApiName = (String) configMap.get('object');
                     gs.game = game;
                     gs.game.Config__c = null;
@@ -502,6 +506,7 @@ public without sharing class PlanningPokerCtrl {
         String storyId,
         String objectApiName,
         String consensusField,
+        String consensusFieldType,
         String consensusValue
     ) {
         Boolean isSuccess = false;
@@ -510,7 +515,13 @@ public without sharing class PlanningPokerCtrl {
         if (targetType != null) {
             sObject s = targetType.newSObject();
             s.put('Id', storyId);
-            s.put(consensusField, consensusValue);
+
+            if (consensusFieldType == 'Double') {
+                s.put(consensusField, Decimal.valueOf(consensusValue));
+            } else {
+                s.put(consensusField, consensusValue);
+            }
+
             update s;
             isSuccess = true;
         }
@@ -547,6 +558,9 @@ public without sharing class PlanningPokerCtrl {
 
         @AuraEnabled
         public String consensusField;
+
+        @AuraEnabled
+        public String consensusFieldType;
 
         @AuraEnabled
         public String objectApiName;

@@ -10,6 +10,6 @@
         <field>Card_Values__c</field>
         <value
             xsi:type="xsd:string"
-        >0, ½, 1, 2, 3, 5, 8, 13, 20, ?, Pass</value>
+        >0, 0.5, 1, 2, 3, 5, 8, 13, 20, ?, Pass</value>
     </values>
 </CustomMetadata>

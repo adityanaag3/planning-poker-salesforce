@@ -24,7 +24,7 @@ public class PlanningPokerTestUtil {
         g.Config__c =
             '{"cardSet":"' +
             cs.Id +
-            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
+            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","consensusFieldType":"String","listView":"00B0p000001XhUQEA0"}';
         games.add(g);
 
         g = new Game__c();
@@ -39,7 +39,7 @@ public class PlanningPokerTestUtil {
         g.Config__c =
             '{"cardSet":"' +
             cs.Id +
-            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","listView":"00B0p000001XhUQEA0"}';
+            '","object":"Backlog_Item__c","name":"User_Story__c","description":"Notes__c","consensus":"Consensus__c","consensusFieldType":"String","listView":"00B0p000001XhUQEA0"}';
         games.add(g);
 
         insert games;

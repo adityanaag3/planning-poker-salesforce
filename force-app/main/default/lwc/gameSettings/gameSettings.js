@@ -18,8 +18,11 @@ export default class GameSettings extends LightningElement {
     selectedConsensusField;
     selectedListViewId;
 
+    objectInfoFromWire;
+
     textFieldsFromObject;
     longTextFieldsFromObject;
+    consensusEligibleFieldsFromObject;
 
     error;
 
@@ -34,6 +37,7 @@ export default class GameSettings extends LightningElement {
     @wire(getObjectInfo, { objectApiName: '$selectedObject' })
     selectedObjectInfo({ error, data }) {
         if (data) {
+            this.objectInfoFromWire = data;
             this.textFieldsFromObject = this.getFieldsFromObjectInfo(
                 data,
                 'String'
@@ -41,6 +45,10 @@ export default class GameSettings extends LightningElement {
             this.longTextFieldsFromObject = this.getFieldsFromObjectInfo(
                 data,
                 'TextArea'
+            );
+            this.consensusEligibleFieldsFromObject = this.getFieldsFromObjectInfo(
+                data,
+                ['String', 'Double']
             );
         } else if (error) {
             this.error = error;
@@ -93,13 +101,16 @@ export default class GameSettings extends LightningElement {
     }
 
     getFieldsFromObjectInfo(obj, datatype) {
+        if (!Array.isArray(datatype)) {
+            datatype = [datatype];
+        }
         let selectedFields = [];
         if (obj && obj.fields) {
             let allFields = obj.fields;
             // eslint-disable-next-line guard-for-in
             for (let prop in allFields) {
                 let field = allFields[prop];
-                if (field.dataType === datatype) {
+                if (datatype.includes(field.dataType)) {
                     selectedFields.push({
                         apiName: field.apiName,
                         label: field.label
@@ -108,6 +119,21 @@ export default class GameSettings extends LightningElement {
             }
         }
         return selectedFields;
+    }
+
+    getDataType(fieldname) {
+        let obj = this.objectInfoFromWire;
+        if (obj && obj.fields) {
+            let allFields = obj.fields;
+            // eslint-disable-next-line guard-for-in
+            for (let prop in allFields) {
+                let field = allFields[prop];
+                if (field.apiName === fieldname) {
+                    return field.dataType;
+                }
+            }
+        }
+        return 'String';
     }
 
     handleConfigChange(event) {
@@ -136,7 +162,8 @@ export default class GameSettings extends LightningElement {
             name: this.selectedNameField,
             description: this.selectedDescriptionField,
             consensus: this.selectedConsensusField,
-            listView: this.selectedListViewId
+            listView: this.selectedListViewId,
+            consensusFieldType: this.getDataType(this.selectedConsensusField)
         };
 
         if (Object.keys(gameSettings).every((key) => gameSettings[key])) {
