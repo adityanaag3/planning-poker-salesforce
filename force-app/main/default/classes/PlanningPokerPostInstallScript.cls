@@ -1,12 +1,13 @@
 global class PlanningPokerPostInstallScript implements InstallHandler {
     global void onInstall(InstallContext context) {
         if (context.previousVersion() == null) {
-            String namespace = PlanningPokerCtrl.getNameSpace(true);
-            insertPushTopics(namespace);
+            insertPushTopics();
         }
     }
 
-    public static void insertPushTopics(String namespace) {
+    global static void insertPushTopics() {
+        String namespace = PlanningPokerCtrl.getNameSpace(true);
+
         List<PushTopic> pushTopics = new List<PushTopic>();
 
         PushTopic pushTopic = new PushTopic();

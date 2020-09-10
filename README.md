@@ -75,8 +75,8 @@ You can optionally also install the guest version of the player app on Heroku to
     </li>
     <li>Once the installation is successful, Open the Developer Console and go to Debug -> Execute Anonymous Window. </li>
     <li>Paste the following code, and click <b>Execute</b>
-<pre>String namespace = PlanningPokerCtrl.getNameSpace(true);
-PlanningPokerPostInstallScript.insertPushTopics(namespace);</pre>
+<pre>
+planningpokersf.PlanningPokerPostInstallScript.insertPushTopics();</pre>
     </li>
     <li>To make a Salesforce user the host of a game, assign the <code>Planning Poker Host</code> permission set to them.</li>
     <li>Assign the <code>Planning Poker Player</code> permission set to any users who want to participate as players.</li>
