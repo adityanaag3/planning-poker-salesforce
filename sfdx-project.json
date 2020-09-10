@@ -4,8 +4,8 @@
             "path": "force-app",
             "default": true,
             "package": "PlanningPokerSF",
-            "versionName": "Version 1.1.0",
-            "versionNumber": "1.1.0.NEXT"
+            "versionName": "Version 1.1.1",
+            "versionNumber": "1.1.1.NEXT"
         }
     ],
     "namespace": "",
@@ -13,6 +13,6 @@
     "sourceApiVersion": "49.0",
     "packageAliases": {
         "PlanningPokerSF": "0Ho0o000000TNByCAO",
-        "PlanningPokerSF@1.1.0-1": "04t0o000003jOweAAE"
+        "PlanningPokerSF@1.1.1-1": "04t0o000003jP1oAAE"
     }
 }
