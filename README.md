@@ -60,7 +60,7 @@ You can optionally also install the guest version of the player app on Heroku to
     <li>
         Click the button below to install on Developer Edition, Trailhead Playgroud or Production orgs<br/>
             <p>
-                <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t0o000003jOweAAE">
+                <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t0o000003jP1oAAE">
                     <img src="/assets/install-production.png" alt="Install in Production">
                 </a>
             </p>
@@ -68,7 +68,7 @@ You can optionally also install the guest version of the player app on Heroku to
     <li>
         Click the button below to install on Sandboxes or Scratch Orgs<br/>
             <p>
-                <a href="https://test.salesforce.com/packaging/installPackage.apexp?p0=04t0o000003jOweAAE">
+                <a href="https://test.salesforce.com/packaging/installPackage.apexp?p0=04t0o000003jP1oAAE">
                     <img src="/assets/install-sandbox.png" alt="Install in Sandbox">
                 </a>
             </p>
