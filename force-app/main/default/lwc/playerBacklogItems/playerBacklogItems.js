@@ -8,6 +8,7 @@ import getCurrentStory from '@salesforce/apex/PlanningPokerCtrl.getCurrentStory'
 export default class PlayerBacklogItems extends LightningElement {
     @api gameId;
     @api playerId;
+    @api namespace;
 
     estimateOptions;
     currentItem;
