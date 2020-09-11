@@ -52,10 +52,6 @@ export default class PlayerApp extends LightningElement {
         }
     }
 
-    connectedCallback() {
-        this.initEmpApi();
-    }
-
     disconnectedCallback() {
         if (this.gameStateChange_subscription) {
             empApi.unsubscribe(this.gameStateChange_subscription, () => {
@@ -122,6 +118,9 @@ export default class PlayerApp extends LightningElement {
                     this.showTimer = result[`${this.namespace}Show_Timer__c`];
                     this.timerDuration =
                         result[`${this.namespace}Timer_Duration__c`];
+
+                    this.initEmpApi();
+
                     insertPlayer({
                         gameId: this.gameId,
                         isSalesforcePlayer: true
