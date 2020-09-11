@@ -74,9 +74,13 @@ export default class PlayerApp extends LightningElement {
             console.error('Streaming API error: ' + JSON.stringify(error));
         });
         empApi
-            .subscribe('/event/Game_State_Change__e', -1, (message) => {
-                this.handleGameStateChange(message);
-            })
+            .subscribe(
+                `/event/${this.namespace}Game_State_Change__e`,
+                -1,
+                (message) => {
+                    this.handleGameStateChange(message);
+                }
+            )
             .then((response) => {
                 this.gameStateChange_subscription = response;
             });
