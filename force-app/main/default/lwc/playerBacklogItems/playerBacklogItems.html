@@ -57,12 +57,22 @@
 
         <template if:true={playerId}>
             <div
-                class="slds-text-title_caps slds-var-m-bottom_small slds-var-p-left_medium"
+                class="
+                    slds-text-title_caps
+                    slds-var-m-bottom_small
+                    slds-var-p-left_medium
+                "
             >
                 Your Vote
             </div>
             <div
-                class="slds-scrollable_none slds-grid slds-var-m-bottom_large allPokerCards dashed-border"
+                class="
+                    slds-scrollable_none
+                    slds-grid
+                    slds-var-m-bottom_large
+                    allPokerCards
+                    dashed-border
+                "
             >
                 <template if:true={estimateOptions}>
                     <template for:each={estimateOptions} for:item="estOption">

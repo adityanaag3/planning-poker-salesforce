@@ -46,10 +46,8 @@ export default class GameSettings extends LightningElement {
                 data,
                 'TextArea'
             );
-            this.consensusEligibleFieldsFromObject = this.getFieldsFromObjectInfo(
-                data,
-                ['String', 'Double']
-            );
+            this.consensusEligibleFieldsFromObject =
+                this.getFieldsFromObjectInfo(data, ['String', 'Double']);
         } else if (error) {
             this.error = error;
         }
@@ -80,24 +78,18 @@ export default class GameSettings extends LightningElement {
     }
 
     setUIValues() {
-        this.template.querySelector(
-            '[name=cardSet]'
-        ).value = this.selectedCardSet;
-        this.template.querySelector(
-            '[name=storySource]'
-        ).value = this.selectedObject;
-        this.template.querySelector(
-            '[name=nameField]'
-        ).value = this.selectedNameField;
-        this.template.querySelector(
-            '[name=descriptionField]'
-        ).value = this.selectedDescriptionField;
-        this.template.querySelector(
-            '[name=consensusField]'
-        ).value = this.selectedConsensusField;
-        this.template.querySelector(
-            '[name=filterField]'
-        ).value = this.selectedListViewId;
+        this.template.querySelector('[name=cardSet]').value =
+            this.selectedCardSet;
+        this.template.querySelector('[name=storySource]').value =
+            this.selectedObject;
+        this.template.querySelector('[name=nameField]').value =
+            this.selectedNameField;
+        this.template.querySelector('[name=descriptionField]').value =
+            this.selectedDescriptionField;
+        this.template.querySelector('[name=consensusField]').value =
+            this.selectedConsensusField;
+        this.template.querySelector('[name=filterField]').value =
+            this.selectedListViewId;
     }
 
     getFieldsFromObjectInfo(obj, datatype) {
@@ -168,9 +160,8 @@ export default class GameSettings extends LightningElement {
 
         if (Object.keys(gameSettings).every((key) => gameSettings[key])) {
             fields[ID_FIELD.fieldApiName] = this.recordId;
-            fields[GAME_SETTINGS_FIELD.fieldApiName] = JSON.stringify(
-                gameSettings
-            );
+            fields[GAME_SETTINGS_FIELD.fieldApiName] =
+                JSON.stringify(gameSettings);
             const recordInput = { fields };
             updateRecord(recordInput)
                 .then(() => {
@@ -185,8 +176,7 @@ export default class GameSettings extends LightningElement {
                 .catch((error) => {
                     this.dispatchEvent(
                         new ShowToastEvent({
-                            title:
-                                'An error occurred when updating the game settings',
+                            title: 'An error occurred when updating the game settings',
                             message: error.body.message,
                             variant: 'error'
                         })

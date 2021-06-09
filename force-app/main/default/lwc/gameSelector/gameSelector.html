@@ -12,8 +12,8 @@
                 <option value=""></option>
                 <template if:true={validGames.data}>
                     <template for:each={validGames.data} for:item="validGame">
-                        <option key={validGame.Id} value={validGame.Id}
-                            >{validGame.Name}
+                        <option key={validGame.Id} value={validGame.Id}>
+                            {validGame.Name}
                         </option>
                     </template>
                 </template>

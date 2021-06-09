@@ -189,29 +189,31 @@ export default class BacklogItemsForReview extends LightningElement {
             .then((result) => {
                 this.gameSettings = result;
 
-                this.currentOffset = this.gameSettings.game[
-                    `${this.namespace}Question_Offset__c`
-                ];
+                this.currentOffset =
+                    this.gameSettings.game[
+                        `${this.namespace}Question_Offset__c`
+                    ];
                 if (
                     this.gameSettings.game[
                         `${this.namespace}Question_Offset__c`
                     ] !== 0
                 ) {
-                    this.pageSize = this.gameSettings.game[
-                        `${this.namespace}Question_Offset__c`
-                    ];
+                    this.pageSize =
+                        this.gameSettings.game[
+                            `${this.namespace}Question_Offset__c`
+                        ];
                     this.isOffsetInProgress = true;
                 } else {
                     this.pageSize = 1;
                 }
 
-                this.showTimer = this.gameSettings.game[
-                    `${this.namespace}Show_Timer__c`
-                ];
+                this.showTimer =
+                    this.gameSettings.game[`${this.namespace}Show_Timer__c`];
                 if (this.showTimer === true) {
-                    this.timerDuration = this.gameSettings.game[
-                        `${this.namespace}Timer_Duration__c`
-                    ];
+                    this.timerDuration =
+                        this.gameSettings.game[
+                            `${this.namespace}Timer_Duration__c`
+                        ];
                 }
                 this.fieldsToRetrieve = [
                     result.nameField,

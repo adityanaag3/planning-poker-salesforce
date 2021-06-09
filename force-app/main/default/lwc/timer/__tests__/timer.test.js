@@ -119,9 +119,8 @@ describe('c-timer', () => {
                 jest.runAllTimers();
             })
             .then(() => {
-                let timeEl = element.shadowRoot.querySelector(
-                    '.base-timer__label'
-                );
+                let timeEl =
+                    element.shadowRoot.querySelector('.base-timer__label');
                 expect(timeEl.textContent).toBe('0:00');
                 expect(handler).toHaveBeenCalled();
             });
@@ -143,9 +142,8 @@ describe('c-timer', () => {
                 jest.advanceTimersByTime(10 * 1000);
             })
             .then(() => {
-                let timeEl = element.shadowRoot.querySelector(
-                    '.base-timer__label'
-                );
+                let timeEl =
+                    element.shadowRoot.querySelector('.base-timer__label');
                 expect(timeEl.textContent).toBe('0:50');
             });
     });
@@ -166,9 +164,8 @@ describe('c-timer', () => {
                 jest.advanceTimersByTime(70 * 1000);
             })
             .then(() => {
-                let timeEl = element.shadowRoot.querySelector(
-                    '.base-timer__label'
-                );
+                let timeEl =
+                    element.shadowRoot.querySelector('.base-timer__label');
                 expect(timeEl.textContent).toBe('0:00');
             });
     });
@@ -192,9 +189,8 @@ describe('c-timer', () => {
                 element.resetTimer();
             })
             .then(() => {
-                let timeEl = element.shadowRoot.querySelector(
-                    '.base-timer__label'
-                );
+                let timeEl =
+                    element.shadowRoot.querySelector('.base-timer__label');
                 expect(timeEl.textContent).toBe('1:00');
             });
     });

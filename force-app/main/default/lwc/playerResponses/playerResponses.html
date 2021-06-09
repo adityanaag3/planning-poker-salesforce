@@ -1,8 +1,6 @@
 <template>
     <div class="playerList">
-        <template if:true={error}>
-            {error}
-        </template>
+        <template if:true={error}> {error} </template>
 
         <template if:false={error}>
             <div class="slds-grid slds-wrap">

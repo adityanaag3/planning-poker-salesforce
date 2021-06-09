@@ -16,30 +16,23 @@
         "test:unit:debug": "sfdx-lwc-jest --debug",
         "test:unit:coverage": "sfdx-lwc-jest --coverage",
         "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-        "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\""
+        "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+        "precommit": "npm run prettier:verify && [ $? -eq 0 ] && (npm run lint) || exit -1",
+        "prepare": "husky install"
     },
     "devDependencies": {
+        "@lwc/eslint-plugin-lwc": "^1.0.1",
         "@prettier/plugin-xml": "^0.7.2",
-        "@salesforce/sfdx-lwc-jest": "^0.9.1",
-        "@salesforce/eslint-config-lwc": "^0.7.0",
-        "eslint": "^7.4.0",
-        "eslint-config-prettier": "^6.11.0",
-        "husky": "^4.2.5",
+        "@salesforce/eslint-config-lwc": "^2.0.0",
+        "@salesforce/eslint-plugin-aura": "^2.0.0",
+        "@salesforce/eslint-plugin-lightning": "^0.1.1",
+        "@salesforce/sfdx-lwc-jest": "^0.7.1",
+        "eslint": "^7.25.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.22.1",
+        "husky": "^5.2.0",
         "lint-staged": "^10.2.11",
-        "prettier": "^2.0.5",
-        "prettier-plugin-apex": "^1.5.0"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "lint-staged": {
-        "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
-            "prettier --write"
-        ],
-        "**/lwc/**": [
-            "eslint"
-        ]
+        "prettier": "^2.3.0",
+        "prettier-plugin-apex": "^1.9.1"
     }
 }

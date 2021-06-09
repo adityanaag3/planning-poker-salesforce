@@ -55,9 +55,8 @@ describe('c-game-selector', () => {
         getValidGamesAdapter.error(WIRE_ERROR);
 
         return Promise.resolve().then(() => {
-            const optionElements = element.shadowRoot.querySelectorAll(
-                'option'
-            );
+            const optionElements =
+                element.shadowRoot.querySelectorAll('option');
             expect(optionElements.length).toBe(1);
         });
     });
@@ -72,22 +71,19 @@ describe('c-game-selector', () => {
 
         return Promise.resolve()
             .then(() => {
-                const buttonEl = element.shadowRoot.querySelector(
-                    'lightning-button'
-                );
+                const buttonEl =
+                    element.shadowRoot.querySelector('lightning-button');
                 expect(buttonEl.disabled).toBeTruthy();
 
                 const selectEl = element.shadowRoot.querySelector('select');
-                const optionElements = element.shadowRoot.querySelectorAll(
-                    'option'
-                );
+                const optionElements =
+                    element.shadowRoot.querySelectorAll('option');
                 selectEl.value = optionElements[1].value;
                 selectEl.dispatchEvent(new CustomEvent('change'));
             })
             .then(() => {
-                const buttonEl = element.shadowRoot.querySelector(
-                    'lightning-button'
-                );
+                const buttonEl =
+                    element.shadowRoot.querySelector('lightning-button');
                 expect(buttonEl.disabled).toBeFalsy();
             });
     });
@@ -107,16 +103,14 @@ describe('c-game-selector', () => {
         return Promise.resolve()
             .then(() => {
                 const selectEl = element.shadowRoot.querySelector('select');
-                const optionElements = element.shadowRoot.querySelectorAll(
-                    'option'
-                );
+                const optionElements =
+                    element.shadowRoot.querySelectorAll('option');
                 selectEl.value = optionElements[1].value;
                 selectEl.dispatchEvent(new CustomEvent('change'));
             })
             .then(() => {
-                const buttonEl = element.shadowRoot.querySelector(
-                    'lightning-button'
-                );
+                const buttonEl =
+                    element.shadowRoot.querySelector('lightning-button');
                 buttonEl.click();
             })
             .then(() => {

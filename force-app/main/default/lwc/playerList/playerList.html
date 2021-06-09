@@ -2,22 +2,30 @@
     <div class="playerList">
         <template if:true={isWaitingForPlayers}>
             <div
-                class="slds-var-m-top_large slds-var-m-bottom_large slds-text-align_center slds-text-heading_small"
+                class="
+                    slds-var-m-top_large
+                    slds-var-m-bottom_large
+                    slds-text-align_center
+                    slds-text-heading_small
+                "
             >
                 Waiting for players to join...
             </div>
         </template>
 
-        <template if:true={error}>
-            {error}
-        </template>
+        <template if:true={error}> {error} </template>
 
         <template if:false={error}>
             <div class="slds-grid slds-wrap">
                 <template for:each={playerNames} for:item="playerName">
                     <div
                         key={playerName.Id}
-                        class="slds-text-align_center slds-var-m-bottom_medium slds-size_3-of-12 name"
+                        class="
+                            slds-text-align_center
+                            slds-var-m-bottom_medium
+                            slds-size_3-of-12
+                            name
+                        "
                     >
                         {playerName.Name}
                     </div>
